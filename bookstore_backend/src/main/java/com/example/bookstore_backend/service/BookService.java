@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface BookService {
 
@@ -27,4 +28,6 @@ public interface BookService {
   List<BestSellers> getFavourite(Integer userId, Timestamp start, Timestamp end);
 
   Page<Book> searchBooks(Integer page, String bookName);
+
+  void uploadPicture(MultipartFile multipartFile);
 }

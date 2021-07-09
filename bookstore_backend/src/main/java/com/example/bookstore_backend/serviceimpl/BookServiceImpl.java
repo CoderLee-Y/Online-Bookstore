@@ -8,6 +8,7 @@ import com.example.bookstore_backend.entity.Book;
 import com.example.bookstore_backend.entity.OrderRecord;
 import com.example.bookstore_backend.entity.OrderTable;
 import com.example.bookstore_backend.service.BookService;
+import com.example.bookstore_backend.utils.fileProcessor.FileProcessor;
 import com.github.pagehelper.PageHelper;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -28,6 +29,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -180,5 +182,15 @@ public class BookServiceImpl implements BookService {
     PageRequest pageRequest = PageRequest.of(page, 10, Sort.by(Direction.ASC, "bookId"));
 
     return bookDao.searchBooks(pageRequest, ("%" + bookName + "%"));
+  }
+
+  @Override
+  public void uploadPicture(MultipartFile multipartFile) {
+    String filename = multipartFile.getOriginalFilename();
+    System.out.println("Filename: " + filename);
+    FileProcessor.createFileProcessor()
+        .addFilters(new String[]{"pdf", "jpg", "png", "txt", "csv", "doc", "docx"})
+        .addUploadFile(multipartFile)
+        .saveUploadFileTo("src/main/resources/static/bookImg");
   }
 }

@@ -64,6 +64,11 @@ public class LoginController {
         }
     }
 
+    @RequestMapping("/getAuth")
+    public JSONObject getAuth() {
+        return SessionUtil.getAuthority();
+    }
+
     @RequestMapping("/logout")
     public Message logout() {
         System.out.println("arrive logout controller");

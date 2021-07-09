@@ -26,12 +26,13 @@ public class Book {
   private String description;
   private Integer inventory;
   private String image;
+  private String cover;
 
   public Book() {
   }
 
   public Book(long bookId, String isbn, String name, String type, String author,
-      BigDecimal price, String description, Integer inventory, String image) {
+      BigDecimal price, String description, Integer inventory, String image, String cover) {
     this.bookId = bookId;
     this.isbn = isbn;
     this.name = name;
@@ -41,6 +42,7 @@ public class Book {
     this.description = description;
     this.inventory = inventory;
     this.image = image;
+    this.cover = cover;
   }
 
   @Id
@@ -123,6 +125,15 @@ public class Book {
 
   public void setImage(String image) {
     this.image = image;
+  }
+
+  @Column(name = "cover")
+  public String getCover() {
+    return cover;
+  }
+
+  public void setCover(String cover) {
+    this.cover = cover;
   }
 
   @Override
