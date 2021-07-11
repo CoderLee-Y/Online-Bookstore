@@ -21,6 +21,11 @@ public class BookController {
   @Autowired
   private BookService bookService;
 
+  @RequestMapping("/getBooksForTest")
+  public Page<Book> getBooksForTest() {
+    return bookService.getBooks(0, 0);
+  }
+
   @RequestMapping("/getBooks")
   public Page<Book> getBooks(@RequestBody Map<String, Integer> paras) {
     Integer page = paras.get("page");
@@ -36,20 +41,23 @@ public class BookController {
     return bookService.searchBooks(page, bookName);
   }
 
-  @RequestMapping("/getBook-by-id")
-  public Book getBook(@RequestParam("id") Long id) {
+  @RequestMapping("/getBookById")
+  public Book getBook(@RequestBody Map<String, Long> paras) {
+    Long id = paras.get("id");
     System.out.println(id);
     return bookService.findBookById(id);
   }
 
   @RequestMapping("/deleteBookById")
-  public void deleteBookById(@RequestParam("bookId") Long id) {
+  public void deleteBookById(@RequestBody Map<String, Long> paras) {
+    Long id = paras.get("bookId");
     System.out.println(id);
     bookService.deleteBookById(id);
   }
 
   @RequestMapping(value = "/saveBook", method = RequestMethod.POST)
   public void setBook(@RequestBody Map<String, String> paras) {
+    System.out.println(paras.toString());
     bookService.saveOriginBook(paras);
   }
 

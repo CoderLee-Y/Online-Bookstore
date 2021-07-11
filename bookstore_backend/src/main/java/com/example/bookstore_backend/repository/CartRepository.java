@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+@Transactional
 public interface CartRepository extends JpaRepository<CartItem, Integer> {
 
   List<CartItem> findAllByUser(User user);
@@ -15,6 +16,5 @@ public interface CartRepository extends JpaRepository<CartItem, Integer> {
   @Transactional
   void deleteAllByUserAndBook(User user, Book book);
 
-  @Transactional
   Optional<CartItem> findByUserAndBook(User user, Book book);
 }

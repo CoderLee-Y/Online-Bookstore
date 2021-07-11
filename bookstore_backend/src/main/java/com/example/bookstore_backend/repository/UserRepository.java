@@ -8,9 +8,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public interface UserRepository extends JpaRepository<User, Integer> {
-
-  @Override
-  List<User> findAll();
-
   List<User> findAllByUserIdIn(Collection<Integer> userId);
 }

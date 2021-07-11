@@ -19,9 +19,30 @@ public class InterceptorConfig implements WebMvcConfigurer {
         return new SessionValidateInterceptor();
     }
 
+    @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(this.sessionValidateInterceptor())
-            .addPathPatterns("/empty");
+            .addPathPatterns("/**")
+            .excludePathPatterns("/Login")
+            .excludePathPatterns("/static/**")
+            .excludePathPatterns("/static/bookImg/**")
+            .excludePathPatterns("/getBooks")
+            .excludePathPatterns("/searchBooks")
+            .excludePathPatterns("/getBookById")
+            .excludePathPatterns("/uploadImg")
+            .excludePathPatterns("/checkInventory")
+            .excludePathPatterns("/checkSession")
+            .excludePathPatterns("/checkAdmin")
+            .excludePathPatterns("/getAuth")
+            .excludePathPatterns("/logout")
+            .excludePathPatterns("/checkAuthority")
+            .excludePathPatterns("/getUser")
+            .excludePathPatterns("/getUserById")
+            .excludePathPatterns("/register")
+            .excludePathPatterns("/isDupName")
+            .excludePathPatterns("/testDupName")
+            .excludePathPatterns("//getBooksForTest")
+            .excludePathPatterns("/getUserNow");
     }
 
 

@@ -14,11 +14,12 @@ public class SessionValidateInterceptor extends HandlerInterceptorAdapter {
     public SessionValidateInterceptor() {
     }
 
+    @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object obj) throws Exception {
         boolean status = SessionUtil.checkAuthority();
 
         if (!status) {
-            System.out.println("Failed");
+            System.out.println("Failed to pass auth check in Interceptor.");
             Message message = MessageUtil.createMessage(MessageUtil.NOT_LOGIN_CODE, MessageUtil.NOT_LOGIN_MSG);
             this.sendJsonBack(response, message);
             return false;
