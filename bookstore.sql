@@ -243,6 +243,18 @@ CREATE TABLE `order_table`
 INSERT INTO `order_table` (user_id, status, order_time, address, phone_number)
 VALUES (1, 0, '1991-01-20 15:36:17',
         'Shanghai JiaoTong University SE Building, Minhang, Shanghai', '13566661234');
+INSERT INTO `order_table` (user_id, status, order_time, address, phone_number)
+VALUES (1, 0, '1991-03-20 15:36:17',
+        'Shanghai JiaoTong University SE Building, Minhang, Shanghai', '13566661234');
+INSERT INTO `order_table` (user_id, status, order_time, address, phone_number)
+VALUES (1, 0, '1994-01-20 15:36:17',
+        'Shanghai JiaoTong University SE Building, Minhang, Shanghai', '13566661234');
+INSERT INTO `order_table` (user_id, status, order_time, address, phone_number)
+VALUES (1, 0, '1997-01-20 15:36:17',
+        'Shanghai JiaoTong University SE Building, Minhang, Shanghai', '13566661234');
+INSERT INTO `order_table` (user_id, status, order_time, address, phone_number)
+VALUES (1, 0, '2017-01-20 15:36:17',
+        'Shanghai JiaoTong University SE Building, Minhang, Shanghai', '13566661234');
 
 
 -- ----------------------------
@@ -267,3 +279,22 @@ VALUES (1, 1, 1, 95.20);
 INSERT INTO `order_record`(order_id, book_id, amount, price)
 VALUES (1, 2, 2, 136.90);
 
+INSERT INTO `order_record` (order_id, book_id, amount, price)
+VALUES (2, 1, 1, 95.20);
+INSERT INTO `order_record`(order_id, book_id, amount, price)
+VALUES (2, 2, 2, 136.90);
+
+INSERT INTO `order_record` (order_id, book_id, amount, price)
+VALUES (3, 1, 1, 95.20);
+INSERT INTO `order_record`(order_id, book_id, amount, price)
+VALUES (3, 2, 2, 136.90);
+
+INSERT INTO `order_record` (order_id, book_id, amount, price)
+VALUES (4, 1, 1, 95.20);
+INSERT INTO `order_record`(order_id, book_id, amount, price)
+VALUES (4, 2, 2, 136.90);
+
+INSERT INTO `order_record` (order_id, book_id, amount, price)
+VALUES (5, 1, 1, 95.20);
+INSERT INTO `order_record`(order_id, book_id, amount, price)
+VALUES (5, 2, 2, 136.90);

@@ -63,11 +63,7 @@ public class UserServiceImplement implements UserService {
 
     @Override
     public List<UserAuthority> getAdmins() {
-        List<UserAuthority> userAuthorityList =  userDao.getAdmins();
-        for(UserAuthority userAuthority: userAuthorityList){
-            userAuthority.setUserPassword("Removed for privacy");
-        }
-        return userAuthorityList;
+        return userDao.getAdmins();
     }
 
     @Override

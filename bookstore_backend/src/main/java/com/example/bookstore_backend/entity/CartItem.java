@@ -17,7 +17,6 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "cart_table")
 @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "fieldHandler"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "bookId")
 public class CartItem {
 
   private long id;

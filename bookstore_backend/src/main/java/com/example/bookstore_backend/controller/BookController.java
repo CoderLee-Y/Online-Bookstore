@@ -17,9 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class BookController {
+  private BookService bookService;
 
   @Autowired
-  private BookService bookService;
+  public void setBookService(BookService bookService){
+    this.bookService = bookService;
+  }
 
   @RequestMapping("/getBooksForTest")
   public Page<Book> getBooksForTest() {
