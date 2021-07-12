@@ -29,8 +29,17 @@ hs_err_pid*
 !.vscode/extensions.json
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# .idea config
+/.idea
+
+/bookstore_frontend/node_modules
+/bookstore_frontend/.idea
+/bookstore_backend/.idea
+/bookstore_backend/.mvn
+/bookstore_backend/lib
+/bookstore_backend/node_modules
+
 # dependencies
-bookstore_frontend/node_modules
 /.pnp
 .pnp.js
 

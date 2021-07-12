@@ -1,0 +1,17 @@
+#total_price {
+    color: black;
+    text-align: right;
+    font-family: Sans-serif;
+    font-size: x-large;
+}
+
+#buyCard {
+    border-style: groove;
+    padding: 5px;
+    margin: 15px;
+}
+
+#purchase_button {
+    text-align: right;
+    float: right;
+}

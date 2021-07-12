@@ -1,0 +1,110 @@
+#bookcard{
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#components-layout-demo-fixed-sider .logo {
+    height: 32px;
+    margin: 4px;
+    background: lightgray;
+}
+
+.site-layout-background {
+    background: lightgray;
+}
+
+.sideMenu{
+    background-color: lightslategray;
+}
+
+#menuItem{
+    background-color: lightgrey;
+}
+
+#bookdetail{
+    padding: 10px;
+    margin: 10px;
+    height: 500px;
+}
+
+.textShadowed{
+    text-shadow: 1px 1px 1px;
+}
+
+#buttonsInDeatial{
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+#successPage {
+    padding-top: 160px;
+    padding-bottom: 160px;
+}
+
+#rangePicker {
+    margin-right: 15px;
+}
+
+.dupTag {
+    margin-left: 30px;
+    margin-top: 5px;
+    height: 20px;
+}
+
+#bookName {
+    color: #1b6d85;
+}
+
+#bookPrice {
+    color: #761c19;
+    text-shadow: 2px 2px 5px;
+
+}
+
+#orderPage {
+    min-height: 620px;
+}
+
+.commonTallPage{
+    min-height: 600px;
+}
+
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+#register {
+    padding: 10px;
+}
