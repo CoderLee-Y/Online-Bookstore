@@ -14,7 +14,6 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "user_auth")
 @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "fieldHandler", "userPassword"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "userId")
 public class UserAuthority {
     private Integer userId;
     private String username;

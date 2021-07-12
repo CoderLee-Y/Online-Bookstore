@@ -15,4 +15,8 @@ public interface BookRepository extends JpaRepository<Book,Long>{
   List<Book> getTopSellers();
 
   Page<Book> findByNameLike(String name, Pageable pageRequest);
+
+  @Override
+  @Query("select b from Book b where b.inventory <> -1")
+  Page<Book> findAll(Pageable pageRequest);
 }
