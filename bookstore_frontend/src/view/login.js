@@ -45,7 +45,7 @@ class loginView extends React.Component {
 
                             <div className="myInput" class="col-md-3 col-md-offset-4" align="center">
                                 <Form.Item
-                                    label="Username"
+                                    label="username"
                                     name="username"
                                     rules={[{required: true, message: 'Please Input Your ID.'}]}
                                 >
@@ -55,8 +55,8 @@ class loginView extends React.Component {
 
                             <div className="myInput" class="col-md-3 col-md-offset-4" align="center">
                                 <Form.Item
-                                    label="Password"
-                                    name="userPassword"
+                                    label="password"
+                                    name="password"
                                     rules={[{required: true, message: 'Please Input Your Username.'}]}
                                 >
                                     <Input.Password placeholder="input password"
