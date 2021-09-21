@@ -42,6 +42,7 @@ export function login (data) {
         }
     };
 
+    console.log(data)
     const url = 'http://localhost:8080/Login';
     postRequest(url, data, callback);
 }
