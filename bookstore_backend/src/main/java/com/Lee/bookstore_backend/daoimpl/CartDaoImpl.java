@@ -82,8 +82,8 @@ public class CartDaoImpl implements CartDao {
   @Override
   public Integer createOrder(Integer user_id, List<Long> book_id,
       List<Integer> amount, List<BigDecimal> price) {
-    System.out.println("arrive 85");
-    User customer = userRepository.getOne(user_id);
+    User customer = userRepository.getByUserId(user_id);
+    System.out.println(customer.toString());
     OrderTable orderTable = new OrderTable();
 
     Timestamp ts = new Timestamp(System.currentTimeMillis());
@@ -101,10 +101,11 @@ public class CartDaoImpl implements CartDao {
       orderRecord.setAmount(amount.get(i));
       orderRecord.setPrice(price.get(i));
       orderRecord.setBook(bookRepository.getOne(book_id.get(i)));
-      orderRecord.setOrder_id(orderTable.getOrderId());
 
-      orderRecordRepository.saveAndFlush(orderRecord);
+//      orderRecordRepository.saveAndFlush(orderRecord);
       items.add(orderRecord);
+      orderTable.setItems(items);
+      orderRepository.saveAndFlush(orderTable);
 
       Book book = bookRepository.getOne(book_id.get(i));
       User user = userRepository.getOne(user_id);

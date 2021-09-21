@@ -1,6 +1,7 @@
 package com.Lee.bookstore_backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -32,6 +33,7 @@ public class User {
     }
 
     @Id
+    @Column(name = "user_id")
     public Integer getUserId() {
         return userId;
     }
@@ -40,6 +42,7 @@ public class User {
         this.userId = userId;
     }
 
+    @Column(name = "nickname")
     public String getNickname() {
         return nickname;
     }
@@ -48,6 +51,7 @@ public class User {
         this.nickname = nickname;
     }
 
+    @Column(name = "tel")
     public String getTel() {
         return tel;
     }
@@ -56,6 +60,7 @@ public class User {
         this.tel = tel;
     }
 
+    @Column(name = "address")
     public String getAddress() {
         return address;
     }
@@ -64,6 +69,7 @@ public class User {
         this.address = address;
     }
 
+    @Column(name = "icon")
     public String getIcon() {
         return icon;
     }
@@ -72,6 +78,7 @@ public class User {
         this.icon = icon;
     }
 
+    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -80,11 +87,25 @@ public class User {
         this.email = email;
     }
 
+    @Column(name = "abandon")
     public Integer getAbandon() {
         return abandon;
     }
 
     public void setAbandon(Integer abandon) {
         this.abandon = abandon;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+            "userId=" + userId +
+            ", nickname='" + nickname + '\'' +
+            ", email='" + email + '\'' +
+            ", tel='" + tel + '\'' +
+            ", address='" + address + '\'' +
+            ", icon='" + icon + '\'' +
+            ", abandon=" + abandon +
+            '}';
     }
 }

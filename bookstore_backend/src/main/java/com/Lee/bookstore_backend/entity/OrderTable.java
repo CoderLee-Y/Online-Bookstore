@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -37,7 +38,6 @@ public class OrderTable {
   public OrderTable() {
   }
 
-
   @Id
   @Column(name = "order_id")
   @GeneratedValue(generator = "increment")
@@ -50,7 +50,7 @@ public class OrderTable {
     this.orderId = orderId;
   }
 
-  @ManyToOne(targetEntity = User.class)
+  @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id")
   public User getUser() {
     return user;
@@ -58,6 +58,16 @@ public class OrderTable {
 
   public void setUser(User user) {
     this.user = user;
+  }
+
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name = "order_id")
+  public List<OrderRecord> getItems() {
+    return items;
+  }
+
+  public void setItems(List<OrderRecord> items) {
+    this.items = items;
   }
 
   public Integer getStatus() {
@@ -94,17 +104,5 @@ public class OrderTable {
   public void setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
   }
-
-
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "order_id")
-  public List<OrderRecord> getItems() {
-    return items;
-  }
-
-  public void setItems(List<OrderRecord> items) {
-    this.items = items;
-  }
-
 }
 

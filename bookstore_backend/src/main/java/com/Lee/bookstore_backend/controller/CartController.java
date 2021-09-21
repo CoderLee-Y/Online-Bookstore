@@ -51,7 +51,7 @@ public class CartController {
     if(!SessionUtil.checkAuthority()){
       return MessageUtil.createMessage(MessageUtil.LOGIN_ERROR_CODE, "You don't have access");
     }
-    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("");
+    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
     cartService.createOrder(user_id, book_id, amount, price);
     return MessageUtil.createMessage(MessageUtil.ALREADY_LOGIN_CODE, "Success");
   }

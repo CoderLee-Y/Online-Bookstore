@@ -27,7 +27,9 @@ E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_bac
 E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_backend\dao\BookDao.java
 E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_backend\service\BookService.java
 E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_backend\repository\UserRepository.java
+E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_backend\kafka\KafkaConfig.java
 E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_backend\entity\User.java
+E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_backend\kafka\KafkaProducerConfig.java
 E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_backend\utils\messageUtils\MessageUtil.java
 E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_backend\utils\sessionUtils\SessionUtil.java
 E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_backend\repository\OrderRepository.java
@@ -42,4 +44,5 @@ E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_bac
 E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_backend\daoimpl\CartDaoImpl.java
 E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_backend\repository\BookRepository.java
 E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_backend\daoimpl\BookDaoImpl.java
+E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_backend\kafka\KafkaConsumerConfig.java
 E:\CodeField\web\Bookstore\bookstore_backend\src\main\java\com\Lee\bookstore_backend\serviceimpl\CartServiceImpl.java

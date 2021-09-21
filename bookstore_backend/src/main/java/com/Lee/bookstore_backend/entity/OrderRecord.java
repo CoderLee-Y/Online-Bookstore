@@ -3,7 +3,9 @@ package com.Lee.bookstore_backend.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.math.BigDecimal;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -20,19 +22,18 @@ public class OrderRecord {
   private Integer amount;
   private BigDecimal price;
   private Book book;
-  private Integer order_id;
+  private OrderTable orderTable;
 
   public OrderRecord() {
   }
 
-
   public OrderRecord(Integer recordId, Integer amount, BigDecimal price,
-      Book book, Integer order_id) {
+      Book book, OrderTable orderTable) {
     this.recordId = recordId;
     this.amount = amount;
     this.price = price;
     this.book = book;
-    this.order_id = order_id;
+    this.orderTable = orderTable;
   }
 
   @Id
@@ -46,6 +47,7 @@ public class OrderRecord {
     this.recordId = recordId;
   }
 
+  @Column(name = "amount")
   public Integer getAmount() {
     return amount;
   }
@@ -54,6 +56,7 @@ public class OrderRecord {
     this.amount = amount;
   }
 
+  @Column(name = "price")
   public BigDecimal getPrice() {
     return price;
   }
@@ -63,7 +66,8 @@ public class OrderRecord {
   }
 
   //  book是受控方，主控方写join column
-  @ManyToOne(targetEntity = Book.class, cascade = CascadeType.REFRESH)
+  @ManyToOne(targetEntity = Book.class, cascade = CascadeType.ALL,
+      fetch = FetchType.EAGER)
   @JoinColumn(name = "book_id")
   public Book getBook() {
     return book;
@@ -73,11 +77,12 @@ public class OrderRecord {
     this.book = book;
   }
 
-  public Integer getOrder_id() {
-    return order_id;
+  @ManyToOne(targetEntity = OrderTable.class)
+  public OrderTable getOrderTable() {
+    return orderTable;
   }
 
-  public void setOrder_id(Integer order_id) {
-    this.order_id = order_id;
+  public void setOrderTable(OrderTable orderTable) {
+    this.orderTable = orderTable;
   }
 }

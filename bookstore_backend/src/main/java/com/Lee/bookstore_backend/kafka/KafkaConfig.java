@@ -5,9 +5,11 @@ import java.util.Map;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaAdmin;
 
+@Configuration
 public class KafkaConfig {
 
   @Bean
@@ -19,7 +21,7 @@ public class KafkaConfig {
 
   @Bean
   public NewTopic topicOrder() {
-    return TopicBuilder.name("order")
-        .build();
+    return TopicBuilder.name("order").build();
   }
+
 }
