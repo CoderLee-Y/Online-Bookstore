@@ -1,3 +1,12 @@
+# Log In ArchOfApp
+
+## Log1 9/22
+
+- 完成了有状态服务改造：将下订单Service设定为有状态，ProtoType设计模式；
+  - 不同实例检查库存后查询Session获取用户信息
+  - 更好的应对抢单等高并发场景
+- 完成了下订单的消息队列改造，使用了Kafka
+
 # Online bookstore
 
 A secure, fully functional and (maybe) efficient online bookstore Apps. It's part of project in 2021-spring SJTU SE122 web application project, which directed by Prof Chen Haopeng.

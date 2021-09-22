@@ -87,12 +87,13 @@ public class OrderController {
       @RequestParam("book_id") List<Long> book_id,
       @RequestParam("amount") List<Integer> amount,
       @RequestParam("price") List<BigDecimal> price) {
+
     CartService cartService = webApplicationContext.getBean(CartService.class);
-    System.out.println(cartService);
+
     if (cartService.createOrder(book_id, amount, price) == 0) {
       return MessageUtil.createMessage(MessageUtil.ALREADY_LOGIN_CODE, "Success");
     } else {
-      return MessageUtil.createMessage(MessageUtil.LOGIN_ERROR_CODE, "You don't have access");
+      return MessageUtil.createMessage(MessageUtil.LOGIN_ERROR_CODE, "In your area, this product is understocked");
     }
   }
 }

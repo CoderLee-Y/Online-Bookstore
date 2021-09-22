@@ -51,11 +51,11 @@ public class CartServiceImpl implements CartService {
   public Integer createOrder(List<Long> book_id,
       List<Integer> amount, List<BigDecimal> price) {
 
-    if(!SessionUtil.checkAuthority()){
+    if(!SessionUtil.checkAuthority() || !checkInventory(book_id, amount)){
       return -1;
     }
-    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
 
+    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
     JSONObject jsonObject = new JSONObject();
     jsonObject.put("userId", user_id);
     jsonObject.put("bookId", book_id);
