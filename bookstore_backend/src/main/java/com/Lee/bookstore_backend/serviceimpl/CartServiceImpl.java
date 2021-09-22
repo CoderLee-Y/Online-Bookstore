@@ -6,11 +6,14 @@ import com.Lee.bookstore_backend.dao.UserDao;
 import com.Lee.bookstore_backend.entity.Book;
 import com.Lee.bookstore_backend.entity.CartItem;
 import com.Lee.bookstore_backend.service.CartService;
+import com.Lee.bookstore_backend.utils.sessionUtils.SessionUtil;
 import com.alibaba.fastjson.JSONObject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaProducerException;
 import org.springframework.kafka.core.KafkaSendCallback;
@@ -22,6 +25,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 
 
 @Service
+@Scope("prototype")
 public class CartServiceImpl implements CartService {
 
   CartDao cartDao;
@@ -44,8 +48,13 @@ public class CartServiceImpl implements CartService {
   }
 
   @Override
-  public void createOrder(Integer user_id, List<Long> book_id,
+  public Integer createOrder(List<Long> book_id,
       List<Integer> amount, List<BigDecimal> price) {
+
+    if(!SessionUtil.checkAuthority()){
+      return -1;
+    }
+    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
 
     JSONObject jsonObject = new JSONObject();
     jsonObject.put("userId", user_id);
@@ -65,25 +74,12 @@ public class CartServiceImpl implements CartService {
         System.out.println(ex.getFailedProducerRecord());
       }
     });
-
+    return 0;
   }
 
   @Override
   public boolean checkInventory(List<Long> book_id, List<Integer> amount) {
     return bookDao.checkInventory(book_id, amount);
-  }
-
-  //  Just tool: handle kafka queue
-  @KafkaListener(id = "orderHandler", topics = "order", groupId = "orderHandler")
-  public void handleOrder(@Payload String str) {
-    JSONObject data = JSONObject.parseObject(str);
-    Integer user_id = data.getInteger("userId");
-    List<Long> book_id = data.getJSONArray("bookId").toJavaList(Long.TYPE);
-    List<Integer> amount = data.getJSONArray("amount").toJavaList(Integer.TYPE);
-    List<BigDecimal> price = data.getJSONArray("price").toJavaList(BigDecimal.class);
-
-    cartDao.createOrder(user_id, book_id, amount, price);
-    bookDao.reduceInventory(book_id, amount);
   }
 
   @Override

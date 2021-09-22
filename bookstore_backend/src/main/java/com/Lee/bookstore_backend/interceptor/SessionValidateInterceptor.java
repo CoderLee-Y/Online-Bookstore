@@ -24,7 +24,6 @@ public class SessionValidateInterceptor extends HandlerInterceptorAdapter {
             this.sendJsonBack(response, message);
             return false;
         } else {
-            System.out.println("Success");
             return true;
         }
     }

@@ -9,14 +9,17 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.WebApplicationContext;
 
 @RestController
 public class CartController {
 
   final CartService cartService;
+
 
   @Autowired
   CartController(CartService cartService) {
@@ -39,19 +42,6 @@ public class CartController {
   public void addCartItems(@RequestParam("book_id") Long book_id) {
     Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
     cartService.addCartItems(user_id, book_id);
-  }
-
-  @RequestMapping("/createOrder")
-  public Message createOrder(
-      @RequestParam("book_id") List<Long> book_id,
-      @RequestParam("amount") List<Integer> amount,
-      @RequestParam("price") List<BigDecimal> price) {
-    if(!SessionUtil.checkAuthority()){
-      return MessageUtil.createMessage(MessageUtil.LOGIN_ERROR_CODE, "You don't have access");
-    }
-    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
-    cartService.createOrder(user_id, book_id, amount, price);
-    return MessageUtil.createMessage(MessageUtil.ALREADY_LOGIN_CODE, "Success");
   }
 
   @RequestMapping("/checkInventory")

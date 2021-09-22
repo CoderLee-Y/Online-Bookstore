@@ -1,11 +1,15 @@
 package com.Lee.bookstore_backend.controller;
 
+import com.Lee.bookstore_backend.service.CartService;
+import com.Lee.bookstore_backend.utils.messageUtils.Message;
+import com.Lee.bookstore_backend.utils.messageUtils.MessageUtil;
 import com.Lee.bookstore_backend.utils.sessionUtils.SessionUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.Lee.bookstore_backend.entity.OrderRecord;
 import com.Lee.bookstore_backend.entity.OrderTable;
 import com.Lee.bookstore_backend.service.OrderService;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -15,16 +19,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.WebApplicationContext;
 
 @RestController
 public class OrderController {
+
+  private WebApplicationContext webApplicationContext;
   final OrderService orderService;
 
   @Autowired
-  OrderController(OrderService orderService){
-    this.orderService=orderService;
+  OrderController(OrderService orderService, WebApplicationContext webApplicationContext) {
+    this.orderService = orderService;
+    this.webApplicationContext = webApplicationContext;
   }
-
 
   @RequestMapping("/getOrder")
   public String getOrder() {
@@ -72,5 +79,20 @@ public class OrderController {
 
     List<OrderTable> orderTables = orderService.getAllOrdersByUserId(userId, start, end);
     return JSON.toJSONString(orderTables, SerializerFeature.DisableCircularReferenceDetect);
+  }
+
+  //  在这里创建protoType的service分别获取Session以提高应对销售洪峰的能力
+  @RequestMapping("/createOrder")
+  public Message createOrder(
+      @RequestParam("book_id") List<Long> book_id,
+      @RequestParam("amount") List<Integer> amount,
+      @RequestParam("price") List<BigDecimal> price) {
+    CartService cartService = webApplicationContext.getBean(CartService.class);
+    System.out.println(cartService);
+    if (cartService.createOrder(book_id, amount, price) == 0) {
+      return MessageUtil.createMessage(MessageUtil.ALREADY_LOGIN_CODE, "Success");
+    } else {
+      return MessageUtil.createMessage(MessageUtil.LOGIN_ERROR_CODE, "You don't have access");
+    }
   }
 }
