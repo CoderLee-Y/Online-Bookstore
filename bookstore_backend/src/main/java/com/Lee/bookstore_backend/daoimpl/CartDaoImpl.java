@@ -83,7 +83,6 @@ public class CartDaoImpl implements CartDao {
   public Integer createOrder(Integer user_id, List<Long> book_id,
       List<Integer> amount, List<BigDecimal> price) {
     User customer = userRepository.getByUserId(user_id);
-    System.out.println(customer.toString());
     OrderTable orderTable = new OrderTable();
 
     Timestamp ts = new Timestamp(System.currentTimeMillis());

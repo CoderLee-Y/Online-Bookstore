@@ -243,18 +243,15 @@ class CartTable extends React.Component {
     };
 
     inventoryCallback = (value) => {
-        console.log(value);
         this.setState({
             success: value,
         });
         if(value)
         {
             let purchaseBooks = this.state.selectedElement;
-
             let purchaseBookId = [];
             let purchaseAmount = [];
             let purchasePrice = [];
-            console.log(purchaseBooks)
 
             purchaseBooks.forEach(key => {
                 let bookID = 0;
@@ -276,16 +273,14 @@ class CartTable extends React.Component {
                 })
             })
 
+            //    backend: add order + jump to a successful page
+            window.location.href = "/PurchaseResult"
             this.setState({
                 total: 0,
                 selectedElement: [],
             })
-
             createOrder(this.state.user.userId, purchaseBookId,
                 purchaseAmount, purchasePrice, this.emptyCallback);
-
-            //    backend: add order + jump to a successful page
-            window.location.href = "/PurchaseResult"
         }
         else
         {
@@ -294,14 +289,10 @@ class CartTable extends React.Component {
     }
 
     handlePurchase = () => {
-        console.log("arrive purchase");
-
         let purchaseBooks = this.state.selectedElement;
-
         let purchaseBookId = [];
         let purchaseAmount = [];
         let purchasePrice = [];
-        console.log(purchaseBooks)
 
         purchaseBooks.forEach(key => {
             let bookID = 0;
@@ -316,9 +307,6 @@ class CartTable extends React.Component {
                 }
             }
         })
-
-        console.log(purchaseAmount, purchaseBookId, purchasePrice)
-
         // now check inventory
         checkInventory(purchaseBookId, purchaseAmount, this.inventoryCallback);
     }

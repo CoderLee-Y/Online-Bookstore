@@ -57,7 +57,7 @@ public class CartServiceImpl implements CartService {
     future.addCallback(new KafkaSendCallback<String, String>() {
       @Override
       public void onSuccess(SendResult<String, String> result) {
-        System.out.println(result.getProducerRecord());
+//      TODO: What to do when On success?
       }
 
       @Override
@@ -65,6 +65,7 @@ public class CartServiceImpl implements CartService {
         System.out.println(ex.getFailedProducerRecord());
       }
     });
+
   }
 
   @Override
@@ -75,15 +76,12 @@ public class CartServiceImpl implements CartService {
   //  Just tool: handle kafka queue
   @KafkaListener(id = "orderHandler", topics = "order", groupId = "orderHandler")
   public void handleOrder(@Payload String str) {
-    System.out.println(str);
-
     JSONObject data = JSONObject.parseObject(str);
     Integer user_id = data.getInteger("userId");
     List<Long> book_id = data.getJSONArray("bookId").toJavaList(Long.TYPE);
     List<Integer> amount = data.getJSONArray("amount").toJavaList(Integer.TYPE);
     List<BigDecimal> price = data.getJSONArray("price").toJavaList(BigDecimal.class);
 
-    System.out.println(amount);
     cartDao.createOrder(user_id, book_id, amount, price);
     bookDao.reduceInventory(book_id, amount);
   }

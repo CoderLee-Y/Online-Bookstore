@@ -180,7 +180,6 @@ public class BookServiceImpl implements BookService {
   @Override
   public void uploadPicture(MultipartFile multipartFile) {
     String filename = multipartFile.getOriginalFilename();
-    System.out.println("Filename: " + filename);
     FileProcessor.createFileProcessor()
         .addFilters(new String[]{"pdf", "jpg", "png", "txt", "csv", "doc", "docx"})
         .addUploadFile(multipartFile)

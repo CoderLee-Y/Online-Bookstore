@@ -9,6 +9,7 @@ import com.Lee.bookstore_backend.utils.sessionUtils.SessionUtil;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,25 +38,24 @@ public class UserController {
     }
 
     @RequestMapping("/getUserById")
-    User getUserById(@RequestParam("userId") Integer userId) {
+    User getUserById() {
+        Integer userId = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
         return userService.getUserById(userId);
     }
 
     @RequestMapping("/getCustomers")
     List<User> getCustomers() {
-        System.out.println(userService.getCustomer().toString());
         return userService.getCustomer();
     }
 
     @RequestMapping("/getAdmins")
     List<UserAuthority> getAdmins() {
-        System.out.println(userService.getAdmins().toString());
         return userService.getAdmins();
     }
 
     @RequestMapping("/changeUserMode")
-    void changeUserMode(@RequestParam("userId") Integer userId) {
-        System.out.println(userId);
+    void changeUserMode() {
+        Integer userId = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
         userService.changeMode(userId);
     }
 
@@ -77,13 +77,11 @@ public class UserController {
         return userService.getReceipt(user.getInt("userId"));
     }
 
-
     @RequestMapping("/getUserNow")
     void getUserNow(){
         JSONObject jsonObject = SessionUtil.getAuthority();
         assert jsonObject != null;
     }
-
 
     @RequestMapping("/isDupName")
     boolean isDupName(@RequestBody Object object){

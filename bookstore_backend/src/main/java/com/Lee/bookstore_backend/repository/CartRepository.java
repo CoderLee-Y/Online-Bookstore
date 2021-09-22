@@ -8,7 +8,6 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-@Transactional
 public interface CartRepository extends JpaRepository<CartItem, Integer> {
 
   List<CartItem> findAllByUser(User user);

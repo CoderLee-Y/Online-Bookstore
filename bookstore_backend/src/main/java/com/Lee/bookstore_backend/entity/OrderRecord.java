@@ -22,7 +22,6 @@ public class OrderRecord {
   private Integer amount;
   private BigDecimal price;
   private Book book;
-  private OrderTable orderTable;
 
   public OrderRecord() {
   }
@@ -33,7 +32,6 @@ public class OrderRecord {
     this.amount = amount;
     this.price = price;
     this.book = book;
-    this.orderTable = orderTable;
   }
 
   @Id
@@ -75,14 +73,5 @@ public class OrderRecord {
 
   public void setBook(Book book) {
     this.book = book;
-  }
-
-  @ManyToOne(targetEntity = OrderTable.class)
-  public OrderTable getOrderTable() {
-    return orderTable;
-  }
-
-  public void setOrderTable(OrderTable orderTable) {
-    this.orderTable = orderTable;
   }
 }

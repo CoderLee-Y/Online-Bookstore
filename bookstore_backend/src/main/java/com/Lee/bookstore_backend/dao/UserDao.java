@@ -22,5 +22,7 @@ public interface UserDao {
   void register(Object object);
 
   boolean isDupName(String name);
+
+  User getById(Integer userId);
 }
 

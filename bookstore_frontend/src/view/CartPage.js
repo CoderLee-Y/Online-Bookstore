@@ -24,29 +24,21 @@ class CartView extends React.Component {
     }
 
     callback1 = (data) => {
-        console.log("data",data);
         this.setState({
             cartInfo: data,
         });
     };
 
     componentDidMount(){
-        let user = JSON.parse(localStorage.getItem("user"));
-        getCartItems(user.userId,this.callback1);
-
-        this.setState({
-            user: user,
-        })
+        getCartItems(this.callback1);
     }
 
-
     render() {
-        console.log(this.state.cartInfo);
         this.state.cartInfo.forEach((element,index) =>{
             element.amount=1;
             element.key=index;
         });
-        console.log(this.state.cartInfo);
+
         return (
             <div>
                 <Navbar active="cart" />

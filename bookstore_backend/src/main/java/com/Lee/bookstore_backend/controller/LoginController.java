@@ -25,7 +25,6 @@ public class LoginController {
 
     @RequestMapping("/checkSession")
     public Message checkSession() {
-        System.out.println("check session receive");
         JSONObject authority = SessionUtil.getAuthority();
         if (authority != null) {
             return MessageUtil.createMessage(MessageUtil.ALREADY_LOGIN_CODE, MessageUtil.ALREADY_LOGIN_MSG);
@@ -72,7 +71,6 @@ public class LoginController {
 
     @RequestMapping("/logout")
     public Message logout() {
-        System.out.println("arrive logout controller");
         boolean status = SessionUtil.removeSession();
         if (!status) {
             return MessageUtil.createMessage(MessageUtil.LOGOUT_ERROR_CODE, MessageUtil.LOGOUT_ERROR_MSG);

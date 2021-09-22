@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
@@ -43,8 +44,7 @@ public class Book {
   }
 
   @Id
-  @GeneratedValue(generator = "increment")
-  @GenericGenerator(name = "increment", strategy = "increment")
+  @GeneratedValue(strategy= GenerationType.IDENTITY)
   @Column(name = "id")
   public long getBookId() {
     return bookId;
@@ -71,6 +71,7 @@ public class Book {
   public void setName(String name) {
     this.name = name;
   }
+
   @Column(name = "type")
   public String getType() {
     return type;
@@ -79,6 +80,7 @@ public class Book {
   public void setType(String type) {
     this.type = type;
   }
+
   @Column(name = "author")
   public String getAuthor() {
     return author;
@@ -152,6 +154,22 @@ public class Book {
   @Override
   public int hashCode() {
     return Objects.hash(bookId, isbn, name, type, author, price, description, inventory, image);
+  }
+
+  @Override
+  public String toString() {
+    return "Book{" +
+        "bookId=" + bookId +
+        ", isbn='" + isbn + '\'' +
+        ", name='" + name + '\'' +
+        ", type='" + type + '\'' +
+        ", author='" + author + '\'' +
+        ", price=" + price +
+        ", description='" + description + '\'' +
+        ", inventory=" + inventory +
+        ", image='" + image + '\'' +
+        ", cover='" + cover + '\'' +
+        '}';
   }
 }
 

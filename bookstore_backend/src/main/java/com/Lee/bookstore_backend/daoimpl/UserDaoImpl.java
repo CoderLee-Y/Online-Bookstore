@@ -120,7 +120,11 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean isDupName(String name) {
         List<UserAuthority> userAuthorityList = userAuthorityRepository.findAllByUsername(name);
-        System.out.println(userAuthorityList.size());
         return (userAuthorityList.size() >= 1);
+    }
+
+    @Override
+    public User getById(Integer userId) {
+        return userRepository.findById(userId).orElse(null);
     }
 }

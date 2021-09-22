@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class BookDaoImpl implements BookDao {
+
   private BookRepository bookRepository;
 
   @Autowired
@@ -82,9 +83,12 @@ public class BookDaoImpl implements BookDao {
 
   @Override
   public void reduceInventory(List<Long> book_id, List<Integer> amount) {
+
     for(int i = 0; i < book_id.toArray().length; ++i)
     {
-      Book book = bookRepository.getOne(book_id.get(i));
+      Book book = bookRepository.findById(book_id.get(i)).orElse(null);
+      if(book == null)
+        return;
       book.setInventory(book.getInventory() - amount.get(i));
       bookRepository.saveAndFlush(book);
     }

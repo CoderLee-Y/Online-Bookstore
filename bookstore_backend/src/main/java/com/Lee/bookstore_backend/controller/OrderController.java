@@ -1,5 +1,6 @@
 package com.Lee.bookstore_backend.controller;
 
+import com.Lee.bookstore_backend.utils.sessionUtils.SessionUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.Lee.bookstore_backend.entity.OrderRecord;
@@ -8,6 +9,7 @@ import com.Lee.bookstore_backend.service.OrderService;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +27,8 @@ public class OrderController {
 
 
   @RequestMapping("/getOrder")
-  public String getOrder(@RequestParam("user_id") Integer user_id) {
-    System.out.println("get order receive: controller:"+user_id);
+  public String getOrder() {
+    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
     List<OrderTable> orderTables = orderService.getOrder(user_id);
     return JSON.toJSONString(orderTables, SerializerFeature.DisableCircularReferenceDetect);
   }
@@ -60,7 +62,7 @@ public class OrderController {
   @RequestMapping("/getAllOrdersByUserId")
    String getAllOrdersByUserId(@RequestBody Map<String, String> paras){
     String startStr = paras.get("start"), endStr = paras.get("end");
-    Integer userId = Integer.valueOf(paras.get("userId"));
+    Integer userId = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
 
     Timestamp start = startStr.equals("null")
         ? (new Timestamp(1)) : Timestamp.valueOf(startStr);

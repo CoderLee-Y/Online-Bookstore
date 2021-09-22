@@ -3,9 +3,11 @@ package com.Lee.bookstore_backend.controller;
 import com.Lee.bookstore_backend.dto.BestSellers;
 import com.Lee.bookstore_backend.entity.Book;
 import com.Lee.bookstore_backend.service.BookService;
+import com.Lee.bookstore_backend.utils.sessionUtils.SessionUtil;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,20 +49,17 @@ public class BookController {
   @RequestMapping("/getBookById")
   public Book getBook(@RequestBody Map<String, Long> paras) {
     Long id = paras.get("id");
-    System.out.println(id);
     return bookService.findBookById(id);
   }
 
   @RequestMapping("/deleteBookById")
   public void deleteBookById(@RequestBody Map<String, Long> paras) {
     Long id = paras.get("bookId");
-    System.out.println(id);
     bookService.deleteBookById(id);
   }
 
   @RequestMapping(value = "/saveBook", method = RequestMethod.POST)
   public void setBook(@RequestBody Map<String, String> paras) {
-    System.out.println(paras.toString());
     bookService.saveOriginBook(paras);
   }
 
@@ -84,7 +83,7 @@ public class BookController {
   @RequestMapping(value = "getFavourite")
   public List<BestSellers> getFavourite(@RequestBody Map<String, String> paras) {
     String startStr = paras.get("start"), endStr = paras.get("end");
-    Integer userId = Integer.valueOf(paras.get("userId"));
+    Integer userId = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
 
     Timestamp start = startStr.equals("null")
         ? (new Timestamp(1)) : Timestamp.valueOf(startStr);

@@ -31,7 +31,6 @@ public class UserServiceImplement implements UserService {
 
     @Override
     public UserAuthority checkAuthority(String username, String userPassword) {
-        System.out.println(username + userPassword);
         UserAuthority userAuthority = userDao.checkAuthority(username, userPassword);
         if(userAuthority == null)
             return null;
@@ -83,9 +82,11 @@ public class UserServiceImplement implements UserService {
 
     @Override
     public JSONObject getReceipt(Integer userId) {
-        User user = userDao.getUserById(userId);
-        JSONObject jsonObject = new JSONObject();
+        User user = userDao.getById(userId);
 
+        JSONObject jsonObject = new JSONObject();
+        if(user == null)
+            return jsonObject;
         jsonObject.put("address", user.getAddress());
         jsonObject.put("tel", user.getTel());
         jsonObject.put("name", user.getNickname());

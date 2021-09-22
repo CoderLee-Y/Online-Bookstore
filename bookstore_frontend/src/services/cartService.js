@@ -1,10 +1,8 @@
 import {postRequest_v2} from "../utils/ajax";
 
-export const getCartItems = (user_id, callback) => {
-    const data = {user_id: user_id};
+export const getCartItems = (callback) => {
     const url = 'http://localhost:8080/getCartItems';
-    console.log(data);
-    postRequest_v2(url, data, callback);
+    postRequest_v2(url, {}, callback);
 };
 
 export const deleteCartItems = (user_id, book_id, callback) => {
