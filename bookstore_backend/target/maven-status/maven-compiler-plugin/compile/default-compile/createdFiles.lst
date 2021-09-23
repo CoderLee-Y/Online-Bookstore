@@ -1,12 +1,15 @@
 com\Lee\bookstore_backend\utils\fileProcessor\FileProcessor$1.class
 com\Lee\bookstore_backend\daoimpl\CartDaoImpl.class
 com\Lee\bookstore_backend\entity\UserAuthority.class
+com\Lee\bookstore_backend\chatRoom\config\HttpHandshakeHandler.class
 com\Lee\bookstore_backend\utils\sessionUtils\SessionUtil.class
 com\Lee\bookstore_backend\entity\User.class
+com\Lee\bookstore_backend\chatRoom\config\HttpWebSocketHandlerDecoratorFactory.class
 com\Lee\bookstore_backend\constant\Constant.class
 com\Lee\bookstore_backend\service\UserService.class
 com\Lee\bookstore_backend\controller\BookController.class
 com\Lee\bookstore_backend\service\BookService.class
+com\Lee\bookstore_backend\chatRoom\model\MessageBody.class
 com\Lee\bookstore_backend\repository\OrderRepository.class
 com\Lee\bookstore_backend\serviceimpl\OrderServiceImpl.class
 com\Lee\bookstore_backend\repository\CartRepository.class
@@ -28,9 +31,12 @@ com\Lee\bookstore_backend\interceptor\SessionValidateInterceptor.class
 com\Lee\bookstore_backend\dao\CartDao.class
 com\Lee\bookstore_backend\entity\OrderRecord.class
 com\Lee\bookstore_backend\utils\fileProcessor\CodedFormatUtil.class
+com\Lee\bookstore_backend\chatRoom\config\HttpWebSocketHandlerDecoratorFactory$1.class
 com\Lee\bookstore_backend\controller\LoginController.class
 com\Lee\bookstore_backend\utils\fileProcessor\FileProcessor.class
+com\Lee\bookstore_backend\chatRoom\config\HttpHandshakeInterceptor.class
 com\Lee\bookstore_backend\entity\CartItem.class
+com\Lee\bookstore_backend\chatRoom\controller\MessageController.class
 com\Lee\bookstore_backend\repository\OrderRecordRepository.class
 com\Lee\bookstore_backend\utils\fileProcessor\CsvFileProcessor.class
 com\Lee\bookstore_backend\interceptor\InterceptorConfig.class
@@ -44,6 +50,7 @@ com\Lee\bookstore_backend\repository\UserAuthorityRepository.class
 com\Lee\bookstore_backend\service\OrderService.class
 com\Lee\bookstore_backend\dao\UserDao.class
 com\Lee\bookstore_backend\dto\BigFans.class
+com\Lee\bookstore_backend\chatRoom\config\WebSocketConfig.class
 com\Lee\bookstore_backend\entity\OrderTable.class
 com\Lee\bookstore_backend\repository\BookRepository.class
 com\Lee\bookstore_backend\dao\BookDao.class

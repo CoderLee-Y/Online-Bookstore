@@ -22,6 +22,7 @@ import LoadImg from "../components/detailPage/UploadImg";
 import MyFavouritePage from "../view/MyFavouritePage";
 import AdminRoute from "./adminRoute";
 import PermissionDenied from "../components/registerPage/PermissionDenied";
+import ChatRoomView from "../view/ChatRoomPage";
 
 class BasicRoute extends React.Component {
     constructor(props) {
@@ -36,6 +37,7 @@ class BasicRoute extends React.Component {
             <Router history={history}>
                 <Switch>
                     <Route path={"/Book"} component={BookView} />
+                    <Route path={"/chatRoom"} component={ChatRoomView} />
                     <Route path={"/TopSellers"} component={hotView} />
                     <Route path={"/Home"} component={HomeView} />
                     <PrivateRoute path={"/Cart"} component={CartView} />
