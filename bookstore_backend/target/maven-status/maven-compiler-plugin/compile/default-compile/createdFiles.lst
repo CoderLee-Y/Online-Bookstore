@@ -23,7 +23,6 @@ com\Lee\bookstore_backend\serviceimpl\CartServiceImpl.class
 com\Lee\bookstore_backend\BookstoreBackendApplication.class
 com\Lee\bookstore_backend\serviceimpl\CartServiceImpl$1.class
 com\Lee\bookstore_backend\daoimpl\OrderDaoImpl.class
-com\Lee\bookstore_backend\utils\messageUtils\Message.class
 com\Lee\bookstore_backend\service\CartService.class
 com\Lee\bookstore_backend\kafka\KafkaProducerConfig.class
 com\Lee\bookstore_backend\controller\CartController.class
@@ -33,12 +32,13 @@ com\Lee\bookstore_backend\entity\OrderRecord.class
 com\Lee\bookstore_backend\utils\fileProcessor\CodedFormatUtil.class
 com\Lee\bookstore_backend\chatRoom\config\HttpWebSocketHandlerDecoratorFactory$1.class
 com\Lee\bookstore_backend\controller\LoginController.class
+com\Lee\bookstore_backend\controller\MessageController.class
 com\Lee\bookstore_backend\utils\fileProcessor\FileProcessor.class
 com\Lee\bookstore_backend\chatRoom\config\HttpHandshakeInterceptor.class
 com\Lee\bookstore_backend\entity\CartItem.class
-com\Lee\bookstore_backend\chatRoom\controller\MessageController.class
 com\Lee\bookstore_backend\repository\OrderRecordRepository.class
 com\Lee\bookstore_backend\utils\fileProcessor\CsvFileProcessor.class
+com\Lee\bookstore_backend\utils\messageUtils\returnMessage.class
 com\Lee\bookstore_backend\interceptor\InterceptorConfig.class
 com\Lee\bookstore_backend\kafka\KafkaConsumerConfig.class
 com\Lee\bookstore_backend\utils\messageUtils\MessageUtil.class

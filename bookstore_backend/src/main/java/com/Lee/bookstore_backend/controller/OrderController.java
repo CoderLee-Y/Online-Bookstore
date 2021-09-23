@@ -1,7 +1,7 @@
 package com.Lee.bookstore_backend.controller;
 
 import com.Lee.bookstore_backend.service.CartService;
-import com.Lee.bookstore_backend.utils.messageUtils.Message;
+import com.Lee.bookstore_backend.utils.messageUtils.returnMessage;
 import com.Lee.bookstore_backend.utils.messageUtils.MessageUtil;
 import com.Lee.bookstore_backend.utils.sessionUtils.SessionUtil;
 import com.alibaba.fastjson.JSON;
@@ -83,7 +83,7 @@ public class OrderController {
 
   //  在这里创建protoType的service分别获取Session以提高应对销售洪峰的能力
   @RequestMapping("/createOrder")
-  public Message createOrder(
+  public returnMessage createOrder(
       @RequestParam("book_id") List<Long> book_id,
       @RequestParam("amount") List<Integer> amount,
       @RequestParam("price") List<BigDecimal> price) {

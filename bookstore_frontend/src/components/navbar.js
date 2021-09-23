@@ -4,6 +4,7 @@ import 'antd/dist/antd.css';
 import '../css/navbar.css'
 import '../css/bootstrap-3.3.7-dist/css/bootstrap.css';
 import { Input, Button} from 'antd';
+import {CustomerServiceOutlined, LikeOutlined, LogoutOutlined} from "@ant-design/icons";
 const { Search } = Input;
 
 function toFavourite()
@@ -63,16 +64,13 @@ class Navbar extends React.Component {
                                     </li> :
                                     <div>
                                         <p className="navbar-text">Hi, {this.state.user.username}</p>
-                                        <button type="button" className="btn btn-default navbar-btn"
-                                                onClick={toFavourite}>
-                                            <span className="glyphicon glyphicon-star" aria-hidden="true">
-                                            </span>
-                                        </button>
-                                        <button type="button" className="btn btn-default navbar-btn"
-                                                onClick={logout}>
-                                            <span className="glyphicon glyphicon-log-out" aria-hidden="true">
-                                            </span>
-                                        </button>
+
+                                        <Button size='large' style={{marginTop:10}}
+                                                href={"/MyFavourite"} icon={<LikeOutlined />} />
+                                        <Button size='large' style={{marginTop:10}}
+                                                href={'/chatRoom'} icon={<CustomerServiceOutlined />} />
+                                        <Button size='large' style={{marginTop:10}}
+                                                onClick={logout} icon={<LogoutOutlined />} />
 
                                     </div>}
                             </ul>

@@ -3,7 +3,7 @@ package com.Lee.bookstore_backend.controller;
 
 import com.Lee.bookstore_backend.entity.UserAuthority;
 import com.Lee.bookstore_backend.service.UserService;
-import com.Lee.bookstore_backend.utils.messageUtils.Message;
+import com.Lee.bookstore_backend.utils.messageUtils.returnMessage;
 import com.Lee.bookstore_backend.utils.messageUtils.MessageUtil;
 import com.Lee.bookstore_backend.utils.sessionUtils.SessionUtil;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class LoginController {
     }
 
     @RequestMapping("/checkSession")
-    public Message checkSession() {
+    public returnMessage checkSession() {
         JSONObject authority = SessionUtil.getAuthority();
         if (authority != null) {
             return MessageUtil.createMessage(MessageUtil.ALREADY_LOGIN_CODE, MessageUtil.ALREADY_LOGIN_MSG);
@@ -33,7 +33,7 @@ public class LoginController {
     }
 
     @RequestMapping("/checkAdmin")
-    public Message checkAdmin() {
+    public returnMessage checkAdmin() {
         JSONObject authority = SessionUtil.getAuthority();
         if (authority != null && authority.getInt("userIdentity") == 1) {
             return MessageUtil.createMessage(MessageUtil.ALREADY_LOGIN_CODE, MessageUtil.ALREADY_LOGIN_MSG);
@@ -42,7 +42,7 @@ public class LoginController {
     }
 
     @RequestMapping("/Login")
-    public Message login(@RequestBody Map<String, String> params) {
+    public returnMessage login(@RequestBody Map<String, String> params) {
         String username = params.get("username");
         String userPassword = params.get("password");
 
@@ -70,7 +70,7 @@ public class LoginController {
     }
 
     @RequestMapping("/logout")
-    public Message logout() {
+    public returnMessage logout() {
         boolean status = SessionUtil.removeSession();
         if (!status) {
             return MessageUtil.createMessage(MessageUtil.LOGOUT_ERROR_CODE, MessageUtil.LOGOUT_ERROR_MSG);

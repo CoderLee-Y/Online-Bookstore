@@ -2,18 +2,18 @@ package com.Lee.bookstore_backend.utils.messageUtils;
 
 import net.sf.json.JSONObject;
 
-public class Message {
+public class returnMessage {
     private int status;
     private String message;
     private JSONObject data;
 
-    public Message(int status, String message, JSONObject data) {
+    public returnMessage(int status, String message, JSONObject data) {
         this.status = status;
         this.message = message;
         this.data = data;
     }
 
-    Message(int status, String message) {
+    returnMessage(int status, String message) {
         this.status = status;
         this.message = message;
         this.data = null;

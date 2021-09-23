@@ -20,11 +20,11 @@ public class MessageUtil {
     public static final int LOGOUT_SUCCESS_CODE = 2;
     public static final int LOGOUT_ERROR_CODE = -3;
 
-    public static Message createMessage(int statusCode, String message) {
-        return new Message(statusCode, message);
+    public static returnMessage createMessage(int statusCode, String message) {
+        return new returnMessage(statusCode, message);
     }
 
-    public static Message createMessage(int statusCode, String message, JSONObject data) {
-        return new Message(statusCode, message, data);
+    public static returnMessage createMessage(int statusCode, String message, JSONObject data) {
+        return new returnMessage(statusCode, message, data);
     }
 }

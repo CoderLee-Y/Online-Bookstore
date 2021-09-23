@@ -37,7 +37,7 @@ class BasicRoute extends React.Component {
             <Router history={history}>
                 <Switch>
                     <Route path={"/Book"} component={BookView} />
-                    <Route path={"/chatRoom"} component={ChatRoomView} />
+                    <PrivateRoute path={"/chatRoom"} component={ChatRoomView} />
                     <Route path={"/TopSellers"} component={hotView} />
                     <Route path={"/Home"} component={HomeView} />
                     <PrivateRoute path={"/Cart"} component={CartView} />

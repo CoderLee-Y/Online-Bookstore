@@ -20,11 +20,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry registry) {
 //        Websocket前缀
         // 设置一个或者多个代理前缀，在 Controller 类中的方法里面发生的消息，会首先转发到代理从而发送到对应广播或者队列中。
-        registry.enableSimpleBroker("/websocket/queue");
+//        订阅地址会是/websocket/service/xxx(我准备使用书本ID表示本书的客服
+        registry.enableSimpleBroker("/websocket/service");
         // 配置客户端发送请求消息的一个或多个前缀，该前缀会筛选消息目标转发到 Controller 类中注解对应的方法里
         registry.setApplicationDestinationPrefixes("/app");
-        // 服务端通知客户端的前缀，可以不设置，默认为user
-        registry.setUserDestinationPrefix("/user");
     }
 
     /**
@@ -36,6 +35,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // 配置 websocket 进入点
         registry.addEndpoint("/iBookStore")
+                .setAllowedOrigins("http://localhost:3000")
 //            握手拦截器，对端点
                 .addInterceptors(new HttpHandshakeInterceptor())
 //            握手处理器，对端点

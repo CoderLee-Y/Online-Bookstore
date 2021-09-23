@@ -110,20 +110,20 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <DefaultTmpEngine>InnoDB</DefaultTmpEngine>
       <DefaultCasing>lower/lower</DefaultCasing>
     </root>
-    <schema id="2" parent="1" name="bookstore">
-      <Current>1</Current>
-      <Collation>utf8mb4_0900_ai_ci</Collation>
-    </schema>
-    <schema id="3" parent="1" name="information_schema">
+    <schema id="2" parent="1" name="information_schema">
       <Collation>utf8_general_ci</Collation>
     </schema>
-    <schema id="4" parent="1" name="mysql">
+    <schema id="3" parent="1" name="mysql">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </schema>
-    <schema id="5" parent="1" name="performance_schema">
+    <schema id="4" parent="1" name="performance_schema">
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </schema>
-    <schema id="6" parent="1" name="sys">
+    <schema id="5" parent="1" name="sys">
+      <Collation>utf8mb4_0900_ai_ci</Collation>
+    </schema>
+    <schema id="6" parent="1" name="bookstore">
+      <Current>1</Current>
       <Collation>utf8mb4_0900_ai_ci</Collation>
     </schema>
     <collation id="7" parent="1" name="armscii8_bin">
@@ -1002,25 +1002,25 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <table id="284" parent="2" name="book">
+    <table id="284" parent="6" name="book">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="285" parent="2" name="cart_table">
+    <table id="285" parent="6" name="cart_table">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="286" parent="2" name="order_record">
+    <table id="286" parent="6" name="order_record">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="287" parent="2" name="order_table">
+    <table id="287" parent="6" name="order_table">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="288" parent="2" name="order_table_items"/>
-    <table id="289" parent="2" name="user">
+    <table id="288" parent="6" name="user">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="290" parent="2" name="user_auth">
+    <table id="289" parent="6" name="user_auth">
       <Collation>utf8_general_ci</Collation>
     </table>
+    <table id="290" parent="6" name="order_table_items"/>
     <column id="291" parent="284" name="id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
@@ -1090,12 +1090,12 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <DataType>int|0s</DataType>
       <DefaultExpression>1</DefaultExpression>
     </column>
-    <index id="306" parent="285" name="user_id">
-      <ColNames>user_id</ColNames>
+    <index id="306" parent="285" name="book_id">
+      <ColNames>book_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="307" parent="285" name="book_id">
-      <ColNames>book_id</ColNames>
+    <index id="307" parent="285" name="user_id">
+      <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
     <key id="308" parent="285" name="PRIMARY">
@@ -1119,24 +1119,24 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="312" parent="286" name="book_id">
-      <Position>2</Position>
-      <DataType>bigint|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="313" parent="286" name="amount">
-      <Position>3</Position>
+    <column id="312" parent="286" name="order_id">
+      <Position>5</Position>
       <DataType>int|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
-    <column id="314" parent="286" name="price">
+    <column id="313" parent="286" name="price">
       <Position>4</Position>
       <DataType>decimal(10,2 digit)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="315" parent="286" name="order_id">
-      <Position>5</Position>
+    <column id="314" parent="286" name="amount">
+      <Position>3</Position>
       <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="315" parent="286" name="book_id">
+      <Position>2</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
     </column>
     <index id="316" parent="286" name="book_id">
       <ColNames>book_id</ColNames>
@@ -1206,110 +1206,110 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <RefTableName>user</RefTableName>
       <RefColNames>user_id</RefColNames>
     </foreign-key>
-    <column id="330" parent="288" name="order_table_order_id">
+    <column id="330" parent="288" name="user_id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="331" parent="288" name="items_record_id">
-      <Position>2</Position>
-      <DataType>int|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <index id="332" parent="288" name="UK_oa5a00wfyngvpf1bvj0s659er">
-      <ColNames>items_record_id</ColNames>
-      <Unique>1</Unique>
-      <Type>btree</Type>
-    </index>
-    <index id="333" parent="288" name="FKim8ns6j01xt1eboiuervt83e5">
-      <ColNames>order_table_order_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="334" parent="288" name="UK_oa5a00wfyngvpf1bvj0s659er">
-      <ColNames>items_record_id</ColNames>
-      <UnderlyingIndexName>UK_oa5a00wfyngvpf1bvj0s659er</UnderlyingIndexName>
-    </key>
-    <foreign-key id="335" parent="288" name="FKim8ns6j01xt1eboiuervt83e5">
-      <ColNames>order_table_order_id</ColNames>
-      <RefTableName>order_table</RefTableName>
-      <RefColNames>order_id</RefColNames>
-    </foreign-key>
-    <column id="336" parent="289" name="user_id">
-      <Position>1</Position>
-      <DataType>int|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="337" parent="289" name="nickname">
+    <column id="331" parent="288" name="nickname">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="338" parent="289" name="email">
+    <column id="332" parent="288" name="email">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="339" parent="289" name="tel">
+    <column id="333" parent="288" name="tel">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="340" parent="289" name="address">
+    <column id="334" parent="288" name="address">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="341" parent="289" name="icon">
+    <column id="335" parent="288" name="icon">
       <Position>6</Position>
       <DataType>varchar(1024)|0s</DataType>
     </column>
-    <column id="342" parent="289" name="abandon">
+    <column id="336" parent="288" name="abandon">
       <Position>7</Position>
       <DataType>int|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <key id="343" parent="289" name="PRIMARY">
+    <key id="337" parent="288" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="344" parent="289" name="user_ibfk_1">
+    <foreign-key id="338" parent="288" name="user_ibfk_1">
       <ColNames>user_id</ColNames>
       <RefTableName>user_auth</RefTableName>
       <RefColNames>user_id</RefColNames>
     </foreign-key>
-    <column id="345" parent="290" name="user_id">
+    <column id="339" parent="289" name="user_id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="346" parent="290" name="username">
+    <column id="340" parent="289" name="username">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="347" parent="290" name="password">
+    <column id="341" parent="289" name="password">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="348" parent="290" name="user_type">
+    <column id="342" parent="289" name="user_type">
       <Position>4</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="349" parent="290" name="username">
+    <index id="343" parent="289" name="username">
       <ColNames>username</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="350" parent="290" name="PRIMARY">
+    <key id="344" parent="289" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="351" parent="290" name="username">
+    <key id="345" parent="289" name="username">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>username</UnderlyingIndexName>
     </key>
+    <column id="346" parent="290" name="items_record_id">
+      <Position>2</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="347" parent="290" name="order_table_order_id">
+      <Position>1</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="348" parent="290" name="UK_oa5a00wfyngvpf1bvj0s659er">
+      <ColNames>items_record_id</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <index id="349" parent="290" name="FKim8ns6j01xt1eboiuervt83e5">
+      <ColNames>order_table_order_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="350" parent="290" name="UK_oa5a00wfyngvpf1bvj0s659er">
+      <ColNames>items_record_id</ColNames>
+      <UnderlyingIndexName>UK_oa5a00wfyngvpf1bvj0s659er</UnderlyingIndexName>
+    </key>
+    <foreign-key id="351" parent="290" name="FKim8ns6j01xt1eboiuervt83e5">
+      <ColNames>order_table_order_id</ColNames>
+      <RefTableName>order_table</RefTableName>
+      <RefColNames>order_id</RefColNames>
+    </foreign-key>
   </database-model>
 </dataSource>
