@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class CartDaoImpl implements CartDao {
@@ -25,16 +27,10 @@ public class CartDaoImpl implements CartDao {
   private UserRepository userRepository;
   private BookRepository bookRepository;
   private OrderRepository orderRepository;
-  private OrderRecordRepository orderRecordRepository;
 
   @Autowired
   public void setCartRepository(CartRepository cartRepository) {
     this.cartRepository = cartRepository;
-  }
-
-  @Autowired
-  public void setOrderRecordRepository(OrderRecordRepository orderRecordRepository) {
-    this.orderRecordRepository = orderRecordRepository;
   }
 
   @Autowired
@@ -80,6 +76,7 @@ public class CartDaoImpl implements CartDao {
   }
 
   @Override
+  @Transactional(propagation = Propagation.REQUIRED)
   public Integer createOrder(Integer user_id, List<Long> book_id,
       List<Integer> amount, List<BigDecimal> price) {
     User customer = userRepository.getByUserId(user_id);
@@ -92,7 +89,6 @@ public class CartDaoImpl implements CartDao {
     orderTable.setUser(customer);
     orderTable.setPhoneNumber(customer.getTel());
 
-    orderTable = orderRepository.saveAndFlush(orderTable);
     List<OrderRecord> items = new ArrayList<>();
 
     for (int i = 0; i < book_id.toArray().length; ++i) {
@@ -112,7 +108,7 @@ public class CartDaoImpl implements CartDao {
     }
 
     orderTable.setItems(items);
-    orderRepository.saveAndFlush(orderTable);
+    orderTable = orderRepository.saveAndFlush(orderTable);
     return orderTable.getOrderId();
   }
 

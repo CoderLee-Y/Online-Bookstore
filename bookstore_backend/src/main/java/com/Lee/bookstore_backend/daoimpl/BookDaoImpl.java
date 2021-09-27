@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class BookDaoImpl implements BookDao {
@@ -82,19 +85,26 @@ public class BookDaoImpl implements BookDao {
   }
 
   @Override
-  public void reduceInventory(List<Long> book_id, List<Integer> amount) {
-
+  @Transactional(propagation = Propagation.REQUIRED)
+  public Integer reduceInventory(List<Long> book_id, List<Integer> amount) {
     for(int i = 0; i < book_id.toArray().length; ++i)
     {
       Book book = bookRepository.findById(book_id.get(i)).orElse(null);
       if(book == null)
-        return;
-      book.setInventory(book.getInventory() - amount.get(i));
+        return -1;
+
+      Integer book_num = book.getInventory();
+      if(book_num <= 0)
+        return -1;
+
+      book.setInventory(book_num - amount.get(i));
       bookRepository.saveAndFlush(book);
     }
+    return 0;
   }
 
   @Override
+  @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
   public boolean checkInventory(List<Long> book_id, List<Integer> amount) {
     for(int i = 0; i < book_id.toArray().length; ++i)
     {

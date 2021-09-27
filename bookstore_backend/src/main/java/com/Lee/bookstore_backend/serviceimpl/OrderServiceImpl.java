@@ -16,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 
 @Service
@@ -62,15 +66,20 @@ public class OrderServiceImpl implements OrderService {
   }
 
   //  Just tool: handle kafka queue
+//  first REQUIRED in a transactional and then lock the book
   @KafkaListener(id = "orderHandler", topics = "order", groupId = "orderHandler")
+  @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
   public void handleOrder(@Payload String str) {
     JSONObject data = JSONObject.parseObject(str);
     Integer user_id = data.getInteger("userId");
     List<Long> book_id = data.getJSONArray("bookId").toJavaList(Long.TYPE);
     List<Integer> amount = data.getJSONArray("amount").toJavaList(Integer.TYPE);
     List<BigDecimal> price = data.getJSONArray("price").toJavaList(BigDecimal.class);
+//    减少库存，含最后一次检查库存
+//    处理消息的时候必须锁住库存条目
+    if(bookDao.reduceInventory(book_id, amount) < 0)
+      return;
 
     cartDao.createOrder(user_id, book_id, amount, price);
-    bookDao.reduceInventory(book_id, amount);
   }
 }

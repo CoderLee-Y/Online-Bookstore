@@ -21,7 +21,7 @@ public interface BookDao {
 
   Book addBook();
 
-  void reduceInventory(List<Long> book_id, List<Integer> amount);
+  Integer reduceInventory(List<Long> book_id, List<Integer> amount);
 
   boolean checkInventory(List<Long> book_id, List<Integer> amount);
 }

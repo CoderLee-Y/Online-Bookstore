@@ -8,6 +8,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+@Transactional
 public interface OrderRepository extends JpaRepository<OrderTable, Integer> {
   List<OrderTable> getAllByUser(User user);
 

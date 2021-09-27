@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+@Transactional
 public interface UserAuthorityRepository extends JpaRepository<UserAuthority, Integer> {
 
   @Query(value = "select * from bookstore.user_auth where password=:userPassword and username=:username", nativeQuery = true)
