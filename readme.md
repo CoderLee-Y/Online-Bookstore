@@ -1,6 +1,107 @@
-# Log In ArchOfApp
+# Log In SE3353
 
-## Log1 9/22
+## Log in Sept.27
+
+### 聊天室
+
+实现了一个客服功能：
+
+- 用户自动接入客服账号聊天
+- 客服根据用户发起的会话进行聊天，不能主动发起聊天
+
+![image-20210924003439075](https://i.loli.net/2021/09/24/ewgy1s6jTIhbqtv.png)
+
+### 事务属性说明-以下订单为例
+
+下订单在本系统中分为2步：
+
+2. 检查并扣除库存 reduceInventory(); 如果检查库存失败则返回。
+3. 生成订单 createOrder()。
+
+我们最终的事务是：下订单过程中保持REQUIRED事务属性，全过程保持不可重复读隔离属性。好处是：
+
+- REQUIRED不会造成减了库存，下订单失败的情景
+- 写锁不会造成减库存并下订单前别人减库存的场景，不会造成检查时有库存，下完单没库存这种不可重复读场景
+
+#### REQUIRED
+
+一路的事务属性都是REQUIRED，最终下单成功。<img src="https://i.loli.net/2021/09/27/mCjyJHpP6a9Fekb.png" alt="image-20210927190640170" style="zoom:67%;" />
+
+#### 异常状况
+
+下面将会在1-2步中间抛出一次异常。我们使用不同的隔离属性观察，
+
+```java
+  @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
+  public void handleOrder(@Payload String str) {
+    // Get kafka message attributes here
+      // check and reduce inventory
+    if(bookDao.reduceInventory(book_id, amount) < 0)
+      return;
+      
+    else if(user_id > -2) // Forever true
+      throw new NullPointerException();
+    cartDao.createOrder(user_id, book_id, amount, price);
+  }
+```
+
+在此过程中，Repository会保持默认Transactional状态，设置为REQUIRED. 
+
+##### 1
+
+```C++
+REQUIRED // handleOrder
+	REQUIRED // reduceInventory
+	REQUIRED // createOrder
+```
+
+<img src="https://i.loli.net/2021/09/27/p5YCbDRnaJfSslz.png" alt="image-20210927191358039" style="zoom: 67%;" />
+
+上图为购买前的库存。由于Kafka的默认设置，这条消息失败会被重新消费10次，然后我们得到的仍然是上图的库存，订单和订单项也没有成功生成。说明事务达到了预期目标。
+
+##### 2
+
+```c++
+REQUIRED // handleOrder
+	REQUIRED_NEW // reduceInventory
+	REQUIRED_NEW // createOrder
+```
+
+下面会创建新事务，按照定义，减完库存事务会被提交，那么按理说应该减少10库存，实验结果符合预期。
+
+![image-20210927193549374](https://i.loli.net/2021/09/27/XPOQo3nqWvwMZIp.png)
+
+<img src="https://i.loli.net/2021/09/27/kesY4VhONQMIZ5z.png" alt="image-20210927193618950" style="zoom:80%;" />
+
+##### 3
+
+```C++
+REQUIRED // handleOrder
+	NOT_SUPPORTED // reduceInventory
+	NOT_SUPPORTED // createOrder
+```
+
+NOT SUPPORTED也会把上层事务挂起，然后不按事务执行，也不会回滚，库存减少10，如下图：
+
+<img src="https://i.loli.net/2021/09/27/lnQTUCf2gxw5EmF.png" alt="image-20210927192013518" style="zoom:80%;" />
+
+<img src="https://i.loli.net/2021/09/27/IcOmzQygAwPDWex.png" alt="image-20210927193347248" style="zoom:80%;" />
+
+##### 4
+
+最后测试一下强制不执行事务的情况。
+
+```c++
+REQUIRED // handleOrder
+	NEVER // reduceInventory
+	NOT_SUPPORTED // createOrder
+```
+
+最后根本不会执行减少库存，会抛异常。而且抛异常不是我设定的异常。
+
+![image-20210927193911652](https://i.loli.net/2021/09/27/BQ527svgmcRFUWE.png)
+
+## Log in Sept.22
 
 - 完成了有状态服务改造：将下订单Service设定为有状态，ProtoType设计模式；
   - 不同实例检查库存后查询Session获取用户信息
