@@ -55,7 +55,7 @@ public class CartServiceImpl implements CartService {
       return -1;
     }
 
-    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
+    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getIntValue("userId");
 
     JSONObject jsonObject = new JSONObject();
     jsonObject.put("userId", user_id);
@@ -63,7 +63,8 @@ public class CartServiceImpl implements CartService {
     jsonObject.put("amount", amount);
     jsonObject.put("price", price);
 
-    ListenableFuture<SendResult<String, String>> future = sender.send("order", "1", jsonObject.toJSONString());
+    ListenableFuture<SendResult<String, String>> future = sender.send("order", "1",
+        jsonObject.toJSONString());
     future.addCallback(new KafkaSendCallback<String, String>() {
       @Override
       public void onSuccess(SendResult<String, String> result) {

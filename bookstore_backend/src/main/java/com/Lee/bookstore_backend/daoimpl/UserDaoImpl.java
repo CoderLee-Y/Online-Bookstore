@@ -10,7 +10,7 @@ import com.Lee.bookstore_backend.utils.sessionUtils.SessionUtil;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -79,7 +79,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void register(Object parent_object) {
-        JSONObject jsonObject = JSONObject.fromObject(parent_object).getJSONObject("file");
+        JSONObject jsonObject = JSONObject.parseObject(parent_object.toString()).getJSONObject("file");
         String password = jsonObject.getString("password");
         String username = jsonObject.getString("email");
         UserAuthority userAuthority = new UserAuthority();
@@ -101,14 +101,14 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void changeReceipt(Object object) {
-        JSONObject jsonObject = JSONObject.fromObject(object).getJSONObject("file");
+        JSONObject jsonObject = JSONObject.parseObject(object.toString()).getJSONObject("file");
         String address = jsonObject.getString("address");
         String tel = jsonObject.getString("phone");
         String name = jsonObject.getString("nickname");
 
         JSONObject jsonObject1 = SessionUtil.getAuthority();
         if(jsonObject1 != null){
-            Integer userId = jsonObject1.getInt("userId");
+            Integer userId = jsonObject1.getIntValue("userId");
             User user = userRepository.getOne(userId);
             user.setTel(tel);
             user.setNickname(name);

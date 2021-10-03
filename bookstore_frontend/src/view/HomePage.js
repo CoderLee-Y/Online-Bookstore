@@ -4,9 +4,10 @@ import Navbar from '../components/navbar'
 import CarouselHP from '../components/homePage/carousel'
 import Footer from '../components/homePage/footer'
 import BookCol from '../components/bookCol'
-import { Row, Col, Divider } from 'antd';
+import {Row, Col, Divider, Statistic} from 'antd';
 import '../css/bootstrap-3.3.7-dist/css/bootstrap.css';
 import StarBooks from "../components/hotPage/bestSellers";
+import {getHomepageContent} from "../services/homepageService";
 
 const bookData = [
     {
@@ -28,15 +29,27 @@ const bookData = [
         description: "炼丹师的起点."
     }
 ];
+
 class HomeView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            list: [bookData]
+            list: [bookData],
+            visitors: 0,
         };
         this.handleClick = this.handleClick.bind(this);
     }
 
+    homepageCallback = (value) => {
+        console.log(value);
+        this.setState({
+            visitors: value.data.visitors,
+        })
+    }
+
+    componentDidMount() {
+        getHomepageContent(this.homepageCallback);
+    }
 
     handleClick() {
         const a = this.state.list;
@@ -73,8 +86,14 @@ class HomeView extends React.Component {
                 <div className="row">
                     <div className="col-md-10 col-md-offset-1">
                         <StarBooks/>
+
                     </div>
                 </div>
+                <Row style={{marginTop: 20, marginBottom: 10}}>
+                    <Col span={8} offset={12}>
+                        <Statistic title="Visitor Numbers" value={this.state.visitors} />
+                    </Col>
+                </Row>
                 <Footer />
             </div>
         );

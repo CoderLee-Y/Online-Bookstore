@@ -66,6 +66,16 @@ public class UserAuthority {
     public void setUserIdentity(Integer userIdentity) {
         this.userIdentity = userIdentity;
     }
+
+    @Override
+    public String toString() {
+        return "UserAuthority{" +
+            "userId=" + userId +
+            ", username='" + username + '\'' +
+            ", userPassword='" + userPassword + '\'' +
+            ", userIdentity=" + userIdentity +
+            '}';
+    }
 }
 
 

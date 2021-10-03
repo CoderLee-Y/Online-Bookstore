@@ -6,8 +6,8 @@ import com.Lee.bookstore_backend.service.UserService;
 import com.Lee.bookstore_backend.utils.messageUtils.returnMessage;
 import com.Lee.bookstore_backend.utils.messageUtils.MessageUtil;
 import com.Lee.bookstore_backend.utils.sessionUtils.SessionUtil;
+import com.alibaba.fastjson.JSONObject;
 import java.util.Map;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +35,7 @@ public class LoginController {
     @RequestMapping("/checkAdmin")
     public returnMessage checkAdmin() {
         JSONObject authority = SessionUtil.getAuthority();
-        if (authority != null && authority.getInt("userIdentity") == 1) {
+        if (authority != null && authority.getIntValue("userIdentity") == 1) {
             return MessageUtil.createMessage(MessageUtil.ALREADY_LOGIN_CODE, MessageUtil.ALREADY_LOGIN_MSG);
         } else
             return MessageUtil.createMessage(MessageUtil.NOT_LOGIN_CODE, MessageUtil.NOT_LOGIN_MSG);
@@ -58,8 +58,10 @@ public class LoginController {
             newSession.put("username", userAuthority.getUsername());
             newSession.put("userIdentity", userAuthority.getUserIdentity());
             SessionUtil.setSession(newSession);
-            JSONObject responseData = JSONObject.fromObject(userAuthority);
-            responseData.remove("userPassword");
+            JSONObject responseData = new JSONObject();
+            responseData.put("userId", userAuthority.getUserId());
+            responseData.put("userIdentity", userAuthority.getUserIdentity());
+            responseData.put("username", userAuthority.getUsername());
             return MessageUtil.createMessage(MessageUtil.LOGIN_SUCCESS_CODE, MessageUtil.LOGIN_SUCCESS_MSG, responseData);
         }
     }

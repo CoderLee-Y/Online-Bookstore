@@ -23,19 +23,19 @@ public class CartController {
 
   @RequestMapping("/getCartItems")
   public List<Book> getCartItems() {
-    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
+    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getIntValue("userId");
     return cartService.getCartItems(user_id);
   }
 
   @RequestMapping("/deleteCartItems")
   public void deleteCartItems(@RequestParam("book_id") Long book_id) {
-    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
+    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getIntValue("userId");
     cartService.deleteCartItems(user_id, book_id);
   }
 
   @RequestMapping("/addCartItems")
   public void addCartItems(@RequestParam("book_id") Long book_id) {
-    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
+    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getIntValue("userId");
     cartService.addCartItems(user_id, book_id);
   }
 

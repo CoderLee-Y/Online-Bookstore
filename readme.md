@@ -1,5 +1,38 @@
 # Log In SE3353
 
+## Log in Oct.6
+
+### 测试提示
+
+- 访问`/getHomePage`视为一次访问，计入一次访客量；可以使用Jmeter建立线程组访问
+- 正常使用Book相关的功能，可以使用redis client查看现有内存缓存
+
+### 访客统计
+
+使用Jmeter并发测试，100线程并发10次。访问前:
+
+<img src="https://i.loli.net/2021/10/01/puHP7XSBoWcglbi.png" alt="image-20211001124633457" style="zoom:50%;" />
+
+测试之后：
+
+<img src="https://i.loli.net/2021/10/01/kaCuIMPlb8tqhWf.png" alt="image-20211001124655982" style="zoom:50%;" />
+
+考虑到测试后登陆网站又会多一次，所以是准确的。
+
+### 内存数据库
+
+使用Redis数据库，对一致性的控制方法是：
+
+- Add会往数据库中写，然后往内存中写
+- 其他写操作会往数据库写，然后invalid对应书籍缓存
+- 每次查看书籍详情先去内存数据库找，如果失配再去db找并且刷到内存中
+
+测试结果如下，两次查找中间访问了一下书本(id == 2). 
+
+<img src="https://i.loli.net/2021/10/01/AGcHlfhSx5Dg8P4.png" alt="image-20211001164330172" style="zoom:67%;" />
+
+此外还测试了增删改对内存数据库的一致性检查，发现加入Redis之后仍然保持了强一致性。
+
 ## Log in Sept.27
 
 ### 聊天室

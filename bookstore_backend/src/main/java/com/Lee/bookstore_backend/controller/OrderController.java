@@ -35,7 +35,7 @@ public class OrderController {
 
   @RequestMapping("/getOrder")
   public String getOrder() {
-    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
+    Integer user_id = Objects.requireNonNull(SessionUtil.getAuthority()).getIntValue("userId");
     List<OrderTable> orderTables = orderService.getOrder(user_id);
     return JSON.toJSONString(orderTables, SerializerFeature.DisableCircularReferenceDetect);
   }
@@ -69,7 +69,7 @@ public class OrderController {
   @RequestMapping("/getAllOrdersByUserId")
    String getAllOrdersByUserId(@RequestBody Map<String, String> paras){
     String startStr = paras.get("start"), endStr = paras.get("end");
-    Integer userId = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
+    Integer userId = Objects.requireNonNull(SessionUtil.getAuthority()).getIntValue("userId");
 
     Timestamp start = startStr.equals("null")
         ? (new Timestamp(1)) : Timestamp.valueOf(startStr);

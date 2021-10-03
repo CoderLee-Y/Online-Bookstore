@@ -147,7 +147,6 @@ class UserManageTable extends React.Component {
 
     componentDidMount() {
         getRankedUsers(null, null, this.callback1)
-        console.log(this.state)
     }
 
     render() {

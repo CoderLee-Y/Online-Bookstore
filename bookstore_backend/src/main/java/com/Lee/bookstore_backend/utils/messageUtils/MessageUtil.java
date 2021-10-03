@@ -1,6 +1,7 @@
 package com.Lee.bookstore_backend.utils.messageUtils;
 
-import net.sf.json.JSONObject;
+
+import com.alibaba.fastjson.JSONObject;
 
 public class MessageUtil {
     public static final String LOGIN_ERROR_MSG = "密码或用户名有误，请重新输入。";

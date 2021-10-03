@@ -1,6 +1,7 @@
 package com.Lee.bookstore_backend.utils.messageUtils;
 
-import net.sf.json.JSONObject;
+
+import com.alibaba.fastjson.JSONObject;
 
 public class returnMessage {
     private int status;
@@ -29,5 +30,14 @@ public class returnMessage {
 
     public JSONObject getData() {
         return data;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            "status: " + status +
+            ", message: '" + message + '\'' +
+            ", data: " + data +
+            '}';
     }
 }

@@ -4,9 +4,9 @@ package com.Lee.bookstore_backend.service;
 import com.Lee.bookstore_backend.dto.BigFans;
 import com.Lee.bookstore_backend.entity.User;
 import com.Lee.bookstore_backend.entity.UserAuthority;
+import com.alibaba.fastjson.JSONObject;
 import java.sql.Timestamp;
 import java.util.List;
-import net.sf.json.JSONObject;
 
 public interface UserService {
     UserAuthority checkAuthority(String username, String userPassword);

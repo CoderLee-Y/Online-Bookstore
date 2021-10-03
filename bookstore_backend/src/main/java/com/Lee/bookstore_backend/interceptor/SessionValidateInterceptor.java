@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class SessionValidateInterceptor extends HandlerInterceptorAdapter {
@@ -32,7 +32,7 @@ public class SessionValidateInterceptor extends HandlerInterceptorAdapter {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         try (PrintWriter writer = response.getWriter()) {
-            writer.print(JSONObject.fromObject(returnMessage));
+            writer.print(JSONObject.parse(returnMessage.toString()));
         } catch (IOException e) {
             System.out.println("send json back error");
         }

@@ -1,3 +1,4 @@
+com\Lee\bookstore_backend\multithreading\Visitors.class
 com\Lee\bookstore_backend\utils\fileProcessor\FileProcessor$1.class
 com\Lee\bookstore_backend\daoimpl\CartDaoImpl.class
 com\Lee\bookstore_backend\entity\UserAuthority.class
@@ -22,10 +23,12 @@ com\Lee\bookstore_backend\dto\BestSellers.class
 com\Lee\bookstore_backend\serviceimpl\CartServiceImpl.class
 com\Lee\bookstore_backend\BookstoreBackendApplication.class
 com\Lee\bookstore_backend\serviceimpl\CartServiceImpl$1.class
+com\Lee\bookstore_backend\utils\redisUtil\RedisConfig.class
 com\Lee\bookstore_backend\daoimpl\OrderDaoImpl.class
 com\Lee\bookstore_backend\service\CartService.class
 com\Lee\bookstore_backend\kafka\KafkaProducerConfig.class
 com\Lee\bookstore_backend\controller\CartController.class
+com\Lee\bookstore_backend\multithreading\AddVisitors.class
 com\Lee\bookstore_backend\interceptor\SessionValidateInterceptor.class
 com\Lee\bookstore_backend\dao\CartDao.class
 com\Lee\bookstore_backend\entity\OrderRecord.class
@@ -44,6 +47,7 @@ com\Lee\bookstore_backend\kafka\KafkaConsumerConfig.class
 com\Lee\bookstore_backend\utils\messageUtils\MessageUtil.class
 com\Lee\bookstore_backend\dao\OrderDao.class
 com\Lee\bookstore_backend\daoimpl\BookDaoImpl.class
+com\Lee\bookstore_backend\utils\redisUtil\RedisUtil.class
 com\Lee\bookstore_backend\kafka\KafkaConfig.class
 com\Lee\bookstore_backend\controller\UserController.class
 com\Lee\bookstore_backend\repository\UserAuthorityRepository.class

@@ -6,11 +6,11 @@ import com.Lee.bookstore_backend.entity.User;
 import com.Lee.bookstore_backend.entity.UserAuthority;
 import com.Lee.bookstore_backend.service.UserService;
 import com.Lee.bookstore_backend.utils.sessionUtils.SessionUtil;
+import com.alibaba.fastjson.JSONObject;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +39,7 @@ public class UserController {
 
     @RequestMapping("/getUserById")
     User getUserById() {
-        Integer userId = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
+        Integer userId = Objects.requireNonNull(SessionUtil.getAuthority()).getIntValue("userId");
         return userService.getUserById(userId);
     }
 
@@ -55,7 +55,7 @@ public class UserController {
 
     @RequestMapping("/changeUserMode")
     void changeUserMode() {
-        Integer userId = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
+        Integer userId = Objects.requireNonNull(SessionUtil.getAuthority()).getIntValue("userId");
         userService.changeMode(userId);
     }
 
@@ -74,7 +74,7 @@ public class UserController {
         JSONObject user = SessionUtil.getAuthority();
         if(user == null)
             return null;
-        return userService.getReceipt(user.getInt("userId"));
+        return userService.getReceipt(user.getIntValue("userId"));
     }
 
     @RequestMapping("/getUserNow")
@@ -85,7 +85,7 @@ public class UserController {
 
     @RequestMapping("/isDupName")
     boolean isDupName(@RequestBody Object object){
-        JSONObject jsonObject = JSONObject.fromObject(object).getJSONObject("file");
+        JSONObject jsonObject = JSONObject.parseObject(object.toString()).getJSONObject("file");
         String username = jsonObject.getString("email");
         return userService.isDupName(username);
     }

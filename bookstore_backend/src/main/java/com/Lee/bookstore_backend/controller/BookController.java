@@ -2,12 +2,20 @@ package com.Lee.bookstore_backend.controller;
 
 import com.Lee.bookstore_backend.dto.BestSellers;
 import com.Lee.bookstore_backend.entity.Book;
+import com.Lee.bookstore_backend.multithreading.AddVisitors;
 import com.Lee.bookstore_backend.service.BookService;
+import com.Lee.bookstore_backend.utils.messageUtils.MessageUtil;
+import com.Lee.bookstore_backend.utils.messageUtils.returnMessage;
 import com.Lee.bookstore_backend.utils.sessionUtils.SessionUtil;
+import com.alibaba.fastjson.JSONObject;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +29,20 @@ import org.springframework.web.multipart.MultipartFile;
 public class BookController {
   private BookService bookService;
 
+  private static final ExecutorService exec = Executors.newFixedThreadPool(20);
+
   @Autowired
   public void setBookService(BookService bookService){
     this.bookService = bookService;
+  }
+
+  @RequestMapping("/getHomePage")
+  public returnMessage getHomePage() throws ExecutionException, InterruptedException {
+    JSONObject data = new JSONObject();
+    FutureTask<Integer> futureTask = new FutureTask<Integer>(new AddVisitors());
+    exec.submit(futureTask);
+    data.put("visitors", futureTask.get());
+    return MessageUtil.createMessage(0, "success", data);
   }
 
   @RequestMapping("/getBooksForTest")
@@ -83,7 +102,7 @@ public class BookController {
   @RequestMapping(value = "getFavourite")
   public List<BestSellers> getFavourite(@RequestBody Map<String, String> paras) {
     String startStr = paras.get("start"), endStr = paras.get("end");
-    Integer userId = Objects.requireNonNull(SessionUtil.getAuthority()).getInt("userId");
+    Integer userId = Objects.requireNonNull(SessionUtil.getAuthority()).getIntValue("userId");
 
     Timestamp start = startStr.equals("null")
         ? (new Timestamp(1)) : Timestamp.valueOf(startStr);

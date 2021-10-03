@@ -70,6 +70,7 @@ public class OrderServiceImpl implements OrderService {
   @KafkaListener(id = "orderHandler", topics = "order", groupId = "orderHandler")
   @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
   public void handleOrder(@Payload String str) {
+    System.out.println(str);
     JSONObject data = JSONObject.parseObject(str);
     Integer user_id = data.getInteger("userId");
     List<Long> book_id = data.getJSONArray("bookId").toJavaList(Long.TYPE);
