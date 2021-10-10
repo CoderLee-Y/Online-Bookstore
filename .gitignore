@@ -33,7 +33,9 @@ hs_err_pid*
 # .idea config
 **/.idea
 /idea
+/bookstore_frontend/.idea
 /bookstore_frontend/node_modules
+/bookstore_backend/target
 /bookstore_frontend/.idea
 /bookstore_backend/.idea
 /bookstore_backend/.mvn
