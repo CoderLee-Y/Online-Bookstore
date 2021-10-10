@@ -22,9 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class BookDaoImpl implements BookDao {
 
   private BookRepository bookRepository;
+  private RedisUtil redisUtil;
 
   Logger logger = LoggerFactory.getLogger(BookDao.class);
-  private RedisUtil redisUtil;
 
   @Autowired
   public void setBookRepository(BookRepository bookRepository, RedisUtil redisUtil) {
@@ -38,10 +38,10 @@ public class BookDaoImpl implements BookDao {
       return (Book) redisUtil.hget(RedisUtil.BookHashTable, id.toString());
     } else {
       Book book = bookRepository.findById(id).orElse(null);
-      if(book == null){
+      if (book == null) {
         return new Book();
       }
-      if (!redisUtil.hset(RedisUtil.BookHashTable, id.toString(), book)) {
+      if (!redisUtil.hset(RedisUtil.BookHashTable, id.toString(), book, 60)) {
         logger.error("fail to set hash table of book in BookDao");
       }
       return book;
@@ -61,7 +61,7 @@ public class BookDaoImpl implements BookDao {
   @Override
   public void deleteBookById(Long id) {
     Book book = bookRepository.findById(id).orElse(null);
-    if(book == null){
+    if (book == null) {
       return;
     }
     book.setInventory(-1);
@@ -101,7 +101,7 @@ public class BookDaoImpl implements BookDao {
     book.setPrice(BigDecimal.valueOf(0));
     book = bookRepository.saveAndFlush(book);
 
-    if (!redisUtil.hset(RedisUtil.BookHashTable, Long.toString(book.getBookId()), book)) {
+    if (!redisUtil.hset(RedisUtil.BookHashTable, Long.toString(book.getBookId()), book, 60)) {
       logger.error("fail to set hash table of book in BookDao");
     }
     return book;
@@ -120,8 +120,7 @@ public class BookDaoImpl implements BookDao {
   @Override
   @Transactional(propagation = Propagation.REQUIRED)
   public Integer reduceInventory(List<Long> book_id, List<Integer> amount) {
-    for(int i = 0; i < book_id.toArray().length; ++i)
-    {
+    for (int i = 0; i < book_id.toArray().length; ++i) {
       Book book = bookRepository.findById(book_id.get(i)).orElse(null);
       if (book == null) {
         return -1;
@@ -134,8 +133,6 @@ public class BookDaoImpl implements BookDao {
 
       book.setInventory(book_num - amount.get(i));
       bookRepository.saveAndFlush(book);
-
-      invalidBookCache(book_id.get(i));
     }
 
     return 0;
@@ -144,24 +141,16 @@ public class BookDaoImpl implements BookDao {
   @Override
   @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
   public boolean checkInventory(List<Long> book_id, List<Integer> amount) {
-    for(int i = 0; i < book_id.toArray().length; ++i) {
-      Book book;
-      if (redisUtil.hHasKey(RedisUtil.BookHashTable, book_id.get(i).toString())) {
-        book = (Book) redisUtil.hget(RedisUtil.BookHashTable, book_id.get(i).toString());
-      } else {
-        book = bookRepository.findById(book_id.get(i)).orElse(null);
-        if(book == null){
-          return false;
-        }
-        if (!redisUtil.hset(RedisUtil.BookHashTable, book_id.get(i).toString(), book)) {
-          logger.error("fail to set hash table of book in BookDao");
-        }
+    for (int i = 0; i < book_id.toArray().length; ++i) {
+      Book book = bookRepository.findById(book_id.get(i)).orElse(null);
+      if (book == null) {
+        return false;
       }
       if (book.getInventory() < amount.get(i)) {
         return false;
       }
     }
-//    true means ok
+    //    true means ok
     return true;
   }
 }
