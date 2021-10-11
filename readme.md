@@ -25,7 +25,7 @@
 
 <img src="https://i.loli.net/2021/10/11/kmoCs6x4iJf1hAp.png" alt="效果" style="zoom: 50%;" />
 
-可以看到，上面是简介的搜索效果。
+可以看到，上面是简介的搜索效果。Java部分代码在BookDaoImpl中的getFullTextSearch函数。
 
 ## Log on Oct.6
 
