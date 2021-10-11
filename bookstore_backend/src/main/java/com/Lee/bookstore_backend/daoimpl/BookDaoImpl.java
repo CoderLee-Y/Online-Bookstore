@@ -138,7 +138,8 @@ public class BookDaoImpl implements BookDao {
     return fullResult;
   }
 
-  private List<Book> getFullTextSearch(String text) throws SolrServerException, IOException {
+  @Override
+  public List<Book> getFullTextSearch(String text) throws SolrServerException, IOException {
     String SOLR_URL = "http://localhost:8983/solr";
     String CORE_NAME = "bookstore";
 

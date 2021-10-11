@@ -1,0 +1,35 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://spring.io/guides/gs-producing-web-service"
+           targetNamespace="http://spring.io/guides/gs-producing-web-service" elementFormDefault="qualified">
+
+<!--    <xs:group name="bookGroup">-->
+<!--        <xs:sequence>-->
+<!--            <xs:element name="id" type="xs:string"/>-->
+<!--            <xs:element name="introduction" type="xs:string"/>-->
+<!--        </xs:sequence>-->
+<!--    </xs:group>-->
+
+    <xs:element name="getSearchRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="text" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="introList">
+        <xs:list itemType="xs:string"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="idList">
+        <xs:list itemType="xs:string"/>
+    </xs:simpleType>
+
+    <xs:element name="getSearchResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ids" type="tns:idList"/>
+                <xs:element name="intros" type="tns:introList" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

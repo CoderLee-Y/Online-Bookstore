@@ -18,6 +18,8 @@ public interface BookDao {
   List<Book> searchBooks(PageRequest pageRequest, String bookName)
       throws SolrServerException, IOException;
 
+  List<Book> getFullTextSearch(String text) throws SolrServerException, IOException;
+
   void deleteBookById(Long id);
 
   void saveOriginBook(Map<String,String> paras);

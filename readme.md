@@ -9,11 +9,28 @@
 ### 测试提示
 
 - 在Book页面搜索会得到来自书名和简介的搜索结果，简介采用全文搜索
+
 - 如果需要正确运行我的全文搜索模块，[您可能需要参考这里。](https://juejin.cn/post/6844903873178501133#heading-4)有一些事情需要注意：
   - solr使用的conf在`./bookstore_solr`目录下
   - core name为bookstore，请在SOLR_HOME下面data文件夹下创建好bookstore
   - 请把conf文件夹整个复制到bookstore下，然后在8983端口创建核心
   - 请修改`~/conf/my-data-config.xml`把数据库和密码改称自己的
+  
+- 如果需要测试WS，您的请求XML为：
+
+  ```xml
+  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                      xmlns:gs="http://spring.io/guides/gs-producing-web-service">
+      <soapenv:Header/>
+      <soapenv:Body>
+          <gs:getSearchRequest>
+              <gs:text>经典</gs:text>
+          </gs:getSearchRequest>
+      </soapenv:Body>
+  </soapenv:Envelope>
+  ```
+
+  
 
 ### 全文搜索
 
@@ -26,6 +43,12 @@
 <img src="https://i.loli.net/2021/10/11/kmoCs6x4iJf1hAp.png" alt="效果" style="zoom: 50%;" />
 
 可以看到，上面是简介的搜索效果。Java部分代码在BookDaoImpl中的getFullTextSearch函数。
+
+### WebService
+
+使用SOAP向外部暴露了全文搜索接口。采用list对列表进行存储。这样有助于其他语言编写的客户端执行某些功能。列表项之间由空格间隔开来。
+
+![](https://i.loli.net/2021/10/11/B3QRlcvYjmwExKP.png)
 
 ## Log on Oct.6
 
