@@ -1,8 +1,10 @@
 package com.Lee.bookstore_backend.dao;
 
 import com.Lee.bookstore_backend.entity.Book;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -13,7 +15,8 @@ public interface BookDao {
 
   List<Book> getAllBooks();
 
-  Page<Book> searchBooks(PageRequest pageRequest, String bookName);
+  List<Book> searchBooks(PageRequest pageRequest, String bookName)
+      throws SolrServerException, IOException;
 
   void deleteBookById(Long id);
 

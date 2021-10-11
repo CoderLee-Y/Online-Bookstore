@@ -9,12 +9,14 @@ import com.Lee.bookstore_backend.entity.OrderRecord;
 import com.Lee.bookstore_backend.entity.OrderTable;
 import com.Lee.bookstore_backend.service.BookService;
 import com.Lee.bookstore_backend.utils.fileProcessor.FileProcessor;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
@@ -171,10 +173,11 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public Page<Book> searchBooks(Integer page, String bookName) {
+  public List<Book> searchBooks(Integer page, String bookName)
+      throws SolrServerException, IOException {
     PageRequest pageRequest = PageRequest.of(page, 10, Sort.by(Direction.ASC, "bookId"));
 
-    return bookDao.searchBooks(pageRequest, ("%" + bookName + "%"));
+    return bookDao.searchBooks(pageRequest, bookName);
   }
 
   @Override

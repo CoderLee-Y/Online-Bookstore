@@ -33,13 +33,13 @@ class BookView extends React.Component {
     }
 
     callback1 = (data) => {
-        console.log(data);
-        data.content.forEach(element => {
+        console.log(data)
+        data.forEach(element => {
             element['key'] = element.bookId;
         })
         this.setState({
             data: Object.assign(data,
-                {content: data.content.filter((item) => item.inventory !== -1)}),
+                {content: data.filter((item) => item.inventory !== -1)}),
         })
     }
 
@@ -60,7 +60,6 @@ class BookView extends React.Component {
     }
 
     render() {
-        console.log(this.state)
         return (
             <div>
                 <Navbar active="book" />

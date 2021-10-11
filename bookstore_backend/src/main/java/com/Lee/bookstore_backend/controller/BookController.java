@@ -8,6 +8,7 @@ import com.Lee.bookstore_backend.utils.messageUtils.MessageUtil;
 import com.Lee.bookstore_backend.utils.messageUtils.returnMessage;
 import com.Lee.bookstore_backend.utils.sessionUtils.SessionUtil;
 import com.alibaba.fastjson.JSONObject;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,15 +53,16 @@ public class BookController {
   }
 
   @RequestMapping("/getBooks")
-  public Page<Book> getBooks(@RequestBody Map<String, Integer> paras) {
+  public List<Book> getBooks(@RequestBody Map<String, Integer> paras) {
     Integer page = paras.get("page");
     Integer sortId = paras.get("sortId");
 
-    return bookService.getBooks(page, sortId);
+    return bookService.getBooks(page, sortId).getContent();
   }
 
   @RequestMapping("/searchBooks")
-  public Page<Book> searchBookByName(@RequestBody Map<String, String> paras) {
+  public List<Book> searchBookByName(@RequestBody Map<String, String> paras)
+      throws SolrServerException, IOException {
     Integer page = Integer.valueOf(paras.get("page"));
     String bookName = paras.get("bookName");
     return bookService.searchBooks(page, bookName);

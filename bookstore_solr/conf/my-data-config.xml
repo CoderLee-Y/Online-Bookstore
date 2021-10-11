@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataConfig>
+    <dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/bookstore"
+                user="root" password="Lyy751336@sjtu"/>
+    <document>
+        <entity name="book" query="select id, description from book">
+            <field column="id" name="id"/>
+            <field column="description" name="description"/>
+        </entity>
+    </document>
+</dataConfig>

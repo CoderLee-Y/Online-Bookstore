@@ -1,6 +1,33 @@
 # Log In SE3353
 
-## Log in Oct.6
+## Contact with me
+
+`yiyanleee@gmail.com`
+
+## Log on Oct.11
+
+### 测试提示
+
+- 在Book页面搜索会得到来自书名和简介的搜索结果，简介采用全文搜索
+- 如果需要正确运行我的全文搜索模块，[您可能需要参考这里。](https://juejin.cn/post/6844903873178501133#heading-4)有一些事情需要注意：
+  - solr使用的conf在`./bookstore_solr`目录下
+  - core name为bookstore，请在SOLR_HOME下面data文件夹下创建好bookstore
+  - 请把conf文件夹整个复制到bookstore下，然后在8983端口创建核心
+  - 请修改`~/conf/my-data-config.xml`把数据库和密码改称自己的
+
+### 全文搜索
+
+使用Solr作为工具，采用ik-analyzer中文分词器，支持从数据库直接读取简介和书本信息，自动进行分词缓存，自动进行增量更新缓存，支持定时更新索引。
+
+<img src="https://i.loli.net/2021/10/11/hokfuGZIRp7DtSB.png" alt="2021-10-11 20-16-03 的屏幕截图.png" style="zoom: 50%;" />
+
+集成了搜索框，支持按名字，简介查询。
+
+<img src="https://i.loli.net/2021/10/11/kmoCs6x4iJf1hAp.png" alt="效果" style="zoom: 50%;" />
+
+可以看到，上面是简介的搜索效果。
+
+## Log on Oct.6
 
 ### 测试提示
 
@@ -183,10 +210,6 @@ npm start
 1. First change application.properties to change sql admin names and password, and run bookstore.sql.
 2. Then use maven to add dependencies.
 3. Run my backend projects.
-
-## Contact with me
-
-`yiyanleee@gmail.com`
 
 
 

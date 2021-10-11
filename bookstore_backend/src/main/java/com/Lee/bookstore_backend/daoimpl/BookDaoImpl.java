@@ -2,12 +2,22 @@ package com.Lee.bookstore_backend.daoimpl;
 
 import com.Lee.bookstore_backend.dao.BookDao;
 import com.Lee.bookstore_backend.entity.Book;
+import com.Lee.bookstore_backend.entity.User;
 import com.Lee.bookstore_backend.repository.BookRepository;
 import com.Lee.bookstore_backend.utils.redisUtil.RedisUtil;
 import com.alibaba.fastjson.JSONObject;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,8 +118,44 @@ public class BookDaoImpl implements BookDao {
   }
 
   @Override
-  public Page<Book> searchBooks(PageRequest pageRequest, String bookName) {
-    return bookRepository.findByNameLike(bookName, pageRequest);
+  public List<Book> searchBooks(PageRequest pageRequest, String bookName)
+      throws SolrServerException, IOException {
+    Page<Book> ret = bookRepository.findByNameLike(("%" + bookName + "%"), pageRequest);
+    List<Book> fullResult = getFullTextSearch(bookName);
+    List<Book> searchResult = ret.getContent();
+    for(Book book: searchResult){
+      boolean dup = false;
+      for(Book has: fullResult){
+        if(has.getBookId() == book.getBookId()){
+          dup = true;
+          break;
+        }
+      }
+      if(!dup){
+        fullResult.add(book);
+      }
+    }
+    return fullResult;
+  }
+
+  private List<Book> getFullTextSearch(String text) throws SolrServerException, IOException {
+    String SOLR_URL = "http://localhost:8983/solr";
+    String CORE_NAME = "bookstore";
+
+    List<Book> ret = new ArrayList<>();
+    HttpSolrClient client = new HttpSolrClient.Builder(SOLR_URL)
+        .withConnectionTimeout(10000).withSocketTimeout(60000).build();
+
+    SolrQuery query = new SolrQuery();
+    query.setFields("id", "description");
+    query.set("q", ("description:" + text));
+    QueryResponse response = client.query(CORE_NAME, query);
+    SolrDocumentList results = response.getResults();
+
+    for (SolrDocument doc : results) {
+      bookRepository.findById(Long.valueOf(doc.get("id").toString())).ifPresent(ret::add);
+    }
+    return ret;
   }
 
   @Override
