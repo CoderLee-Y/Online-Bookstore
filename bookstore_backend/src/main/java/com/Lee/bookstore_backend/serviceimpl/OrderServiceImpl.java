@@ -11,15 +11,22 @@ import com.Lee.bookstore_backend.service.OrderService;
 import com.alibaba.fastjson.JSONObject;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.cloud.function.context.test.FunctionalSpringBootTest;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.web.client.RestTemplate;
+import reactor.core.publisher.Mono;
 
 
 @Service
@@ -30,8 +37,10 @@ public class OrderServiceImpl implements OrderService {
   CartDao cartDao;
   BookDao bookDao;
 
+
   @Autowired
-  public OrderServiceImpl(OrderDao orderDao, UserDao userDao, CartDao cartDao, BookDao bookDao) {
+  public OrderServiceImpl(OrderDao orderDao, UserDao userDao, CartDao cartDao,
+      BookDao bookDao) {
     this.orderDao = orderDao;
     this.userDao = userDao;
     this.cartDao = cartDao;
@@ -76,10 +85,21 @@ public class OrderServiceImpl implements OrderService {
     List<Long> book_id = data.getJSONArray("bookId").toJavaList(Long.TYPE);
     List<Integer> amount = data.getJSONArray("amount").toJavaList(Integer.TYPE);
     List<BigDecimal> price = data.getJSONArray("price").toJavaList(BigDecimal.class);
+
+    List<Double> booksAmount = new ArrayList<>();
+    List<Double> booksPrice = new ArrayList<>();
+    for (int i = 0; i < price.size(); ++i) {
+      booksAmount.add(Double.valueOf(amount.get(i)));
+      booksPrice.add(price.get(i).doubleValue());
+    }
+
+    RestTemplate restTemplate = new RestTemplate();
+
 //    减少库存，含最后一次检查库存
 //    处理消息的时候必须锁住库存条目
-    if(bookDao.reduceInventory(book_id, amount) < 0)
+    if (bookDao.reduceInventory(book_id, amount) < 0) {
       return;
+    }
 
     cartDao.createOrder(user_id, book_id, amount, price);
   }

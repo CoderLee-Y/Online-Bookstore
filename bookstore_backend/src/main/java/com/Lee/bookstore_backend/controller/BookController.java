@@ -2,12 +2,14 @@ package com.Lee.bookstore_backend.controller;
 
 import com.Lee.bookstore_backend.dto.BestSellers;
 import com.Lee.bookstore_backend.entity.Book;
+import com.Lee.bookstore_backend.microService.feign.FeignClientForSearch;
 import com.Lee.bookstore_backend.multithreading.AddVisitors;
 import com.Lee.bookstore_backend.service.BookService;
 import com.Lee.bookstore_backend.utils.messageUtils.MessageUtil;
 import com.Lee.bookstore_backend.utils.messageUtils.returnMessage;
 import com.Lee.bookstore_backend.utils.sessionUtils.SessionUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.netflix.discovery.converters.Auto;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
@@ -20,6 +22,7 @@ import java.util.concurrent.FutureTask;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,13 +32,26 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class BookController {
+
   private BookService bookService;
+
+  private FeignClientForSearch feignClientForSearch;
 
   private static final ExecutorService exec = Executors.newFixedThreadPool(20);
 
   @Autowired
   public void setBookService(BookService bookService){
     this.bookService = bookService;
+  }
+
+  @Autowired
+  public void setFeignClientForSearch(FeignClientForSearch feignClientForSearch){
+    this.feignClientForSearch = feignClientForSearch;
+  }
+
+  @GetMapping("/book/searchAuthorByName")
+  List<String> getAuthorByName(@RequestParam("bookName") String bookName){
+    return feignClientForSearch.getAuthorByName(bookName);
   }
 
   @RequestMapping("/getHomePage")
@@ -47,7 +63,8 @@ public class BookController {
     return MessageUtil.createMessage(0, "success", data);
   }
 
-  @RequestMapping("/getBooksForTest")
+
+  @RequestMapping("/book/getBooksForTest")
   public Page<Book> getBooksForTest() {
     return bookService.getBooks(0, 0);
   }

@@ -4,6 +4,37 @@
 
 `yiyanleee@gmail.com`
 
+Oct.15 提示：查看作业4的Log，应该看Log on Oct.11.
+
+## Log on Oct.15
+
+### 测试提示
+
+- 您需要运行以下工程进行测试：`./bookstore_microService/{eureka, gateway, searchService}`并修改里面的数据库信息
+- 运行主程序，调用`http://localhost:8082/book/searchAuthorByName?bookName=小王子`查看该作作者
+
+### 服务注册发现，微服务，网关，函数式
+
+使用Netflix/Eureka作为服务发现组件，向其管理的Eureka client提供包括服务注册，心跳检测功能。使用Spring cloud gateway注册在Eureka进行网关服务，统一对外提供网关接口，还可以实现鉴权等功能。避免对微服务地址进行硬编码，便于服务的扩充和更改。
+
+在上述技术栈基础上，实现了一个根据书名查找作者列表的微服务，由统一的网关提供服务。首先，将Eureka运行在8761端口，然后配置网关，微服务，主服务的相应端口，在Eureka注册Bookstore书店主业务服务，网关服务和搜索微服务。
+
+![](https://i.loli.net/2021/10/15/q8iUNDvfPdwgraH.png)
+
+随后配置网关，使用注册中心服务名将/book/**前缀的所有请求发给BOOKSTORE微服务。此时，我们访问8082网关端口，已经能使用8080端口的服务了。
+
+![](https://i.loli.net/2021/10/15/9IoqYrKkZcWM4LU.png)
+
+随后在主服务调用其他微服务，使用到了feign，帮助我们方便的利用Eureka的注册中心中的服务名将其他服务类似远程方法调用(RPC)的方式调用，我们只需要提供服务名和接口，就可以把远程的函数注入到本地，从而无感的使用其他服务的函数。
+
+然后我们再把这个服务按照网关格式提供，就可以通过统一的接口从8082网关调用8080服务，在8080服务中调用11130服务。效果如图所示：
+
+![](https://i.loli.net/2021/10/15/RA2IfnlOXsyQdrV.png)
+
+当然这个场景对于经过8080端口意义不大。这时搜索内加了一个场景：能在搜索某本书的时候调用11130服务查询到所有这个作者写的其他书，做到基于作者的联想，同时利用了微服务的优势。
+
+此外稍微了解了一下函数式服务(Serverless). 采用了Flux+Reactor并使用了atomic变量防止在流场景下的并发错误。但是测试的时候还是遇到了一点Bug，暂时还未完成第二个选项的全部内容。代码在`./bookstore_microService/functional`下。
+
 ## Log on Oct.11
 
 ### 测试提示
@@ -49,6 +80,10 @@
 使用SOAP向外部暴露了全文搜索接口。采用list对列表进行存储。这样有助于其他语言编写的客户端执行某些功能。列表项之间由空格间隔开来。
 
 ![](https://i.loli.net/2021/10/11/B3QRlcvYjmwExKP.png)
+
+此外，还在Java中新建程序，接入WSDL接口，自动进行接口解析和Java调用，看见了SOAP的意义。接口工程在./bookstore_solr中。
+
+![](https://i.loli.net/2021/10/14/U7u4J1FXjrOsgCq.png)
 
 ## Log on Oct.6
 
