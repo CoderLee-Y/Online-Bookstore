@@ -1,9 +1,13 @@
 {
   "properties": [
-
     {
       "name": "zone-name",
       "type": "java.lang.String",
       "description": "Description for zone-name."
+    },
+    {
+      "name": "eureka.client.ssl.key-store-password",
+      "type": "java.lang.String",
+      "description": "Description for eureka.client.ssl.key-store-password."
     }
   ] }
