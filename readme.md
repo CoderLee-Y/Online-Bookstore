@@ -4,8 +4,6 @@
 
 `yiyanleee@gmail.com`
 
-Oct.15 提示：查看作业4的Log，应该看Log on Oct.11.
-
 ## Log on Oct.15
 
 ### 测试提示
@@ -34,6 +32,28 @@ Oct.15 提示：查看作业4的Log，应该看Log on Oct.11.
 当然这个场景对于经过8080端口意义不大。这时搜索内加了一个场景：能在搜索某本书的时候调用11130服务查询到所有这个作者写的其他书，做到基于作者的联想，同时利用了微服务的优势。
 
 此外稍微了解了一下函数式服务(Serverless). 采用了Flux+Reactor并使用了atomic变量防止在流场景下的并发错误。但是测试的时候还是遇到了一点Bug，暂时还未完成第二个选项的全部内容。代码在`./bookstore_microService/functional`下。
+
+### HTTPS
+
+分为两部分：首先是Backend工程将8081端口的流量强制要求HTTPS协议访问，同时保证8080端口支持HTTP，以便于前端能继续正常访问8080端口。第二部分是把Eureka的协议改为HTTPS，将Gateway注册的协议改为HTTPS。
+
+第一步的代码在` BookstoreBackendApplication`类中，具体就是区分端口，对8081端口`setSecure=true;` 然后我们使用POSTMAN访问时，会出现以下提示：
+
+![](https://i.loli.net/2021/10/20/b16pO7t5TwjJYW2.png)
+
+意思是这个是用户自己生成的证书，没有经过受信任的机构认证过。
+
+我们可以配置自己的client.crt，然后将我们的server.crt证书导入，让我们的自签名证书能在我们自己的电脑上受到信任。具体配置为：
+
+![](https://i.loli.net/2021/10/20/eG9LZjKFQCJwVI7.png)
+
+[ref](https://blog.csdn.net/ONS_cukuyo/article/details/79172242)
+
+签名证书的位置在`./bookstore_security`. 由于识别端口的原因，我们原本的前端还是可以正常工作的。
+
+然后配置eureka，具体在eureka工程的appication.yaml文件中，这时候访问eureka服务器，可以看到我们能用HTTPS协议访问但是不能用HTTP协议访问。其中，用HTTPS协议访问的时候会出现不安全的提示，原因同理。
+
+![](https://i.loli.net/2021/10/20/FosTzwkL6MqRNl4.png)
 
 ## Log on Oct.11
 
