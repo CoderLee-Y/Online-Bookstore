@@ -2,7 +2,10 @@ package com.Lee.bookstore_backend.daoimpl;
 
 import com.Lee.bookstore_backend.dao.BookDao;
 import com.Lee.bookstore_backend.entity.Book;
+import com.Lee.bookstore_backend.entity.BookRemark;
+import com.Lee.bookstore_backend.entity.Comment;
 import com.Lee.bookstore_backend.entity.User;
+import com.Lee.bookstore_backend.repository.BookRemarkRepository;
 import com.Lee.bookstore_backend.repository.BookRepository;
 import com.Lee.bookstore_backend.utils.redisUtil.RedisUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -32,20 +35,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class BookDaoImpl implements BookDao {
 
   private BookRepository bookRepository;
+  private BookRemarkRepository bookRemarkRepository;
   private RedisUtil redisUtil;
 
   Logger logger = LoggerFactory.getLogger(BookDao.class);
 
   @Autowired
-  public void setBookRepository(BookRepository bookRepository, RedisUtil redisUtil) {
+  public void setBookRepository(BookRepository bookRepository, RedisUtil redisUtil,
+      BookRemarkRepository bookRemarkRepository) {
     this.bookRepository = bookRepository;
+    this.bookRemarkRepository = bookRemarkRepository;
     this.redisUtil = redisUtil;
   }
 
   @Override
   public Book findOne(Long id) {
     if (redisUtil.hHasKey(RedisUtil.BookHashTable, id.toString())) {
-      return (Book) redisUtil.hget(RedisUtil.BookHashTable, id.toString());
+      Book book = (Book) redisUtil.hget(RedisUtil.BookHashTable, id.toString());
+      book.setBookRemark(bookRemarkRepository.findDistinctByBookId(id));
+      return book;
     } else {
       Book book = bookRepository.findById(id).orElse(null);
       if (book == null) {
@@ -54,6 +62,7 @@ public class BookDaoImpl implements BookDao {
       if (!redisUtil.hset(RedisUtil.BookHashTable, id.toString(), book, 60)) {
         logger.error("fail to set hash table of book in BookDao");
       }
+      book.setBookRemark(bookRemarkRepository.findDistinctByBookId(id));
       return book;
     }
   }
@@ -199,5 +208,29 @@ public class BookDaoImpl implements BookDao {
     }
     //    true means ok
     return true;
+  }
+
+  @Override
+  public void addComment(Long id, Integer authorId, String text) {
+    BookRemark all = bookRemarkRepository.findDistinctByBookId(id);
+    if(all == null){
+      all = new BookRemark();
+      all.setBookId(id);
+
+       List<Comment> tmp = new ArrayList<>();
+       all.setComment(tmp);
+    }
+
+    List<Comment> comments = all.getComment();
+    Comment new_comment = new Comment();
+    List<Comment> replies = new ArrayList<>();
+
+    new_comment.setReply(replies);
+    new_comment.setText(text);
+    new_comment.setAuthorId(authorId);
+
+    comments.add(new_comment);
+    all.setComment(comments);
+    bookRemarkRepository.save(all);
   }
 }

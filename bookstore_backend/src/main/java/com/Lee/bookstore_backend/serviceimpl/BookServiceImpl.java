@@ -188,4 +188,9 @@ public class BookServiceImpl implements BookService {
         .addUploadFile(multipartFile)
         .saveUploadFileTo("src/main/resources/static/bookImg");
   }
+
+  @Override
+  public void addComment(Long id, Integer authorId, String text) {
+    bookDao.addComment(id, authorId, text);
+  }
 }

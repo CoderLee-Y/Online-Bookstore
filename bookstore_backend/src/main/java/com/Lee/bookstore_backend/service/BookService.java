@@ -30,4 +30,6 @@ public interface BookService {
   List<Book> searchBooks(Integer page, String bookName) throws SolrServerException, IOException;
 
   void uploadPicture(MultipartFile multipartFile);
+
+  void addComment(Long id, Integer authorId, String text);
 }

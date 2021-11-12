@@ -4,8 +4,10 @@ import Navbar from '../components/navbar'
 import BookDetail from '../components/detailPage/bookImg'
 import '../css/bootstrap-3.3.7-dist/css/bootstrap.css';
 import Footer from '../components/homePage/footer'
+import {Col, Row} from 'antd';
 import {getBook} from '../services/bookService'
 import {withRouter} from "react-router-dom";
+import BookComment from "../components/detailPage/bookComment";
 
 const datas = {
     imgsrc: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1908918586,853942668&fm=26&gp=0.jpg",
@@ -63,6 +65,10 @@ class DetailView extends React.Component {
                     </div>
                 </div>
                 <BookDetail bookData={this.state.bookinfo} />
+                <Col span={12} offset={6}>
+                    <BookComment comment={this.state.bookinfo} />
+                </Col>
+
                 <Footer />
             </div>
         );

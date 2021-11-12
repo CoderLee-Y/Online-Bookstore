@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -25,6 +26,8 @@ public class Book {
   private Integer inventory;
   private String image;
   private String cover;
+
+  private BookRemark bookRemark;
 
   public Book() {
   }
@@ -133,6 +136,15 @@ public class Book {
 
   public void setCover(String cover) {
     this.cover = cover;
+  }
+
+  @Transient
+  public BookRemark getBookRemark() {
+    return bookRemark;
+  }
+
+  public void setBookRemark(BookRemark bookRemark) {
+    this.bookRemark = bookRemark;
   }
 
   @Override

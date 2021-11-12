@@ -44,8 +44,20 @@ export function deleteBookById (Id, callback){
     postRequest(url, data, callback);
 }
 
+export function addComment (Id, text, callback){
+
+    const url = 'http://localhost:8080/addComment';
+    const data ={
+        bookId: Id,
+        comment: text
+    };
+    console.log(data)
+    postRequest(url, data, callback);
+}
+
 
 export function addBook (callback) {
     const url = 'http://localhost:8080/addBook';
     postRequest(url, {}, callback);
 }
+

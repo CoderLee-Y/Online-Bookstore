@@ -4,6 +4,39 @@
 
 `yiyanleee@gmail.com`
 
+## Log on Nov.12
+
+### 测试提示
+
+### Mongo DB与评论
+
+为书籍增加了评论功能，任何用户都可以在登陆后发表评论，游客也可以查看评论。
+
+![2021-11-12 22-29-05 的屏幕截图.png](https://i.loli.net/2021/11/12/3G2bTYM9fyJSAXO.png)
+
+主要代码改动有：
+
+- add `BookRemark` class and `Comment` class. Add `BookRemark` class to `Book` with `Transient` annotation.
+- Add `MongoRepository` for `BookRemark`, add origin `Book` and `BookRemark` together.
+- Add function of publish and check comments of any Books.
+
+下面是评论信息在数据库中的存储。
+
+![2021-11-12 22-44-04 的屏幕截图.png](https://i.loli.net/2021/11/12/3q7PygamodXEVrD.png)
+
+为什么书籍评价更加适合存在文档数据库中：
+
+- 文档数据库对于评价与评论回复这种一对多关系更加友好
+  - 可以像JSON一样扩展，存在一张List内
+  - 不必做大量外键关联和JOIN操作
+  - 局部性很好，不用手动进行评论的嵌套组合
+- 评论的查询都是一次性查询一本书的评论以及其嵌套回复，更像文档
+- 方便的实现多层回复嵌套
+
+### 图数据库
+
+
+
 ## Log on Oct.15
 
 ### 测试提示

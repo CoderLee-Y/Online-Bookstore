@@ -91,6 +91,19 @@ public class BookController {
     return bookService.findBookById(id);
   }
 
+  @RequestMapping("/addComment")
+  public Integer addComment(@RequestBody JSONObject paras) {
+    Long id = paras.getLong("bookId");
+    String text = paras.getString("comment");
+    JSONObject author = (SessionUtil.getAuthority());
+    if(author == null)
+      return 0;
+
+    Integer authorId = author.getIntValue("userId");
+    bookService.addComment(id, authorId, text);
+    return 1;
+  }
+
   @RequestMapping("/deleteBookById")
   public void deleteBookById(@RequestBody Map<String, Long> paras) {
     Long id = paras.get("bookId");

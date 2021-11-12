@@ -29,4 +29,6 @@ public interface BookDao {
   Integer reduceInventory(List<Long> book_id, List<Integer> amount);
 
   boolean checkInventory(List<Long> book_id, List<Integer> amount);
+
+  void addComment(Long id, Integer authorId, String text);
 }
