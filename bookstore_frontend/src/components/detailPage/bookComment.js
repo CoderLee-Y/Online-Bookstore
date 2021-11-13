@@ -62,9 +62,10 @@ class BookComment extends React.Component {
                 <>
                     <List
                         className="comment-list"
-                        header={`${this.state.comments.comment.length} book comments`}
+                        header={`${this.props.comment === undefined ? 0: (this.props.comment.comment === undefined ?0:
+                            this.props.comment.comment.length)} book comments`}
                         itemLayout="horizontal"
-                        dataSource={this.state.comments.comment}
+                        dataSource={this.props.comment === undefined ? []: this.props.comment.comment === undefined? []: this.props.comment.comment}
                         renderItem={item => (
                             <li>
                                 <Comment

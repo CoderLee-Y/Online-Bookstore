@@ -19,4 +19,6 @@ public interface BookRepository extends JpaRepository<Book, Long>{
   @Override
   @Query("select b from Book b where b.inventory <> -1")
   Page<Book> findAll(Pageable pageRequest);
+
+  List<Book> findAllByType(String type);
 }

@@ -4,7 +4,9 @@ import com.Lee.bookstore_backend.dao.BookDao;
 import com.Lee.bookstore_backend.entity.Book;
 import com.Lee.bookstore_backend.entity.BookRemark;
 import com.Lee.bookstore_backend.entity.Comment;
+import com.Lee.bookstore_backend.entity.Label;
 import com.Lee.bookstore_backend.entity.User;
+import com.Lee.bookstore_backend.repository.BookLabelRepository;
 import com.Lee.bookstore_backend.repository.BookRemarkRepository;
 import com.Lee.bookstore_backend.repository.BookRepository;
 import com.Lee.bookstore_backend.utils.redisUtil.RedisUtil;
@@ -21,31 +23,70 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class BookDaoImpl implements BookDao {
 
   private BookRepository bookRepository;
   private BookRemarkRepository bookRemarkRepository;
+  private BookLabelRepository bookLabelRepository;
   private RedisUtil redisUtil;
 
   Logger logger = LoggerFactory.getLogger(BookDao.class);
 
   @Autowired
   public void setBookRepository(BookRepository bookRepository, RedisUtil redisUtil,
-      BookRemarkRepository bookRemarkRepository) {
+      BookRemarkRepository bookRemarkRepository, BookLabelRepository bookLabelRepository) {
     this.bookRepository = bookRepository;
     this.bookRemarkRepository = bookRemarkRepository;
     this.redisUtil = redisUtil;
+    this.bookLabelRepository = bookLabelRepository;
+  }
+
+  @Override
+  public JSONObject findByLabelName(String label) {
+    JSONObject jsonObject = new JSONObject();
+
+    List<Book> books = bookRepository.findAllByType(label);
+    jsonObject.put("origin", books);
+//
+//    List<Label> labels = bookLabelRepository.findByAlsoLikeName(label);
+//    List<Book> alsoLikeBooks = new ArrayList<>();
+//    System.out.println(labels.toString());
+//
+//    for(Label alsoLikeLabel: labels){
+//      alsoLikeBooks.addAll(bookRepository.findAllByType(alsoLikeLabel.getName()));
+//    }
+//    jsonObject.put("alsoLike", alsoLikeBooks);
+    return jsonObject;
+  }
+
+  @Test
+  public void test(){
+    List<Label> labels = bookLabelRepository.findByName("编程");
+    List<Label> target = bookLabelRepository.findByName("世界名著");
+    assert (target.size() >= 1);
+    for(Label label: labels){
+      label.likeLink(target.get(0));
+    }
+    bookLabelRepository.save(labels.get(0));
   }
 
   @Override

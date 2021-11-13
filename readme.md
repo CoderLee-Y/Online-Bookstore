@@ -8,6 +8,25 @@
 
 ### 测试提示
 
+- 运行第一个Module，您只需要新增MongoDB的数据库并运行在27017默认端口即可；
+
+- 运行Neo4j, 您需要新增图数据库并且运行在7687端口。
+
+  ```cypher
+  CREATE (编程:label{name:'编程'})
+  CREATE (儿童文学:label{name:'儿童文学'})
+  CREATE (世界名著:label{name:'世界名著'})
+  CREATE (社会小说:label{name:'社会小说'})
+  CREATE (青春文学:label{name:'青春文学'})
+  CREATE (中小学教辅:label{name:'中小学教辅'})
+  CREATE (武侠小说:label{name:'武侠小说'})
+  CREATE (魔幻小说:label{name:'魔幻小说'})
+  CREATE (古籍:label{name:'古籍'})
+  CREATE (人物传记:label{name:'人物传记'})
+  ```
+
+  
+
 ### Mongo DB与评论
 
 为书籍增加了评论功能，任何用户都可以在登陆后发表评论，游客也可以查看评论。
@@ -33,7 +52,7 @@
 - 评论的查询都是一次性查询一本书的评论以及其嵌套回复，更像文档
 - 方便的实现多层回复嵌套
 
-### 图数据库
+### Neo4j 与 标签
 
 
 

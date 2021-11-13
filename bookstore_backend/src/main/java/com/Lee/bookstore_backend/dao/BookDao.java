@@ -1,6 +1,7 @@
 package com.Lee.bookstore_backend.dao;
 
 import com.Lee.bookstore_backend.entity.Book;
+import com.alibaba.fastjson.JSONObject;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -31,4 +32,6 @@ public interface BookDao {
   boolean checkInventory(List<Long> book_id, List<Integer> amount);
 
   void addComment(Long id, Integer authorId, String text);
+
+  JSONObject findByLabelName(String label);
 }
