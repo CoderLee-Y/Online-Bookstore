@@ -40,8 +40,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-@SpringBootTest
-@RunWith(SpringRunner.class)
 public class BookDaoImpl implements BookDao {
 
   private BookRepository bookRepository;
@@ -53,10 +51,14 @@ public class BookDaoImpl implements BookDao {
 
   @Autowired
   public void setBookRepository(BookRepository bookRepository, RedisUtil redisUtil,
-      BookRemarkRepository bookRemarkRepository, BookLabelRepository bookLabelRepository) {
+      BookRemarkRepository bookRemarkRepository) {
     this.bookRepository = bookRepository;
     this.bookRemarkRepository = bookRemarkRepository;
     this.redisUtil = redisUtil;
+  }
+
+  @Autowired
+  public void setBookLabelRepository( BookLabelRepository bookLabelRepository){
     this.bookLabelRepository = bookLabelRepository;
   }
 
@@ -66,27 +68,15 @@ public class BookDaoImpl implements BookDao {
 
     List<Book> books = bookRepository.findAllByType(label);
     jsonObject.put("origin", books);
-//
-//    List<Label> labels = bookLabelRepository.findByAlsoLikeName(label);
-//    List<Book> alsoLikeBooks = new ArrayList<>();
-//    System.out.println(labels.toString());
-//
-//    for(Label alsoLikeLabel: labels){
-//      alsoLikeBooks.addAll(bookRepository.findAllByType(alsoLikeLabel.getName()));
-//    }
-//    jsonObject.put("alsoLike", alsoLikeBooks);
-    return jsonObject;
-  }
-
-  @Test
-  public void test(){
-    List<Label> labels = bookLabelRepository.findByName("编程");
-    List<Label> target = bookLabelRepository.findByName("世界名著");
-    assert (target.size() >= 1);
-    for(Label label: labels){
-      label.likeLink(target.get(0));
-    }
+    List<Label> labels = bookLabelRepository.findLabelsByName(label);
     bookLabelRepository.save(labels.get(0));
+    List<Book> alsoLikeBooks = new ArrayList<>();
+    for(Label alsoLikeLabel: labels){
+      alsoLikeBooks.addAll(bookRepository.findAllByType(alsoLikeLabel.getName()));
+    }
+
+    jsonObject.put("alsoLike", alsoLikeBooks);
+    return jsonObject;
   }
 
   @Override

@@ -2,6 +2,7 @@ package com.Lee.bookstore_backend.controller;
 
 import com.Lee.bookstore_backend.dto.BestSellers;
 import com.Lee.bookstore_backend.entity.Book;
+import com.Lee.bookstore_backend.entity.Label;
 import com.Lee.bookstore_backend.microService.feign.FeignClientForSearch;
 import com.Lee.bookstore_backend.multithreading.AddVisitors;
 import com.Lee.bookstore_backend.service.BookService;
@@ -102,6 +103,11 @@ public class BookController {
     Integer authorId = author.getIntValue("userId");
     bookService.addComment(id, authorId, text);
     return 1;
+  }
+
+  @RequestMapping("/findAllByLabel")
+  public JSONObject findAllByLabel(String label) {
+    return bookService.findByLabelName(label);
   }
 
   @RequestMapping("/deleteBookById")

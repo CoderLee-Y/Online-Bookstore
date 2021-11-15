@@ -9,6 +9,7 @@ import com.Lee.bookstore_backend.entity.OrderRecord;
 import com.Lee.bookstore_backend.entity.OrderTable;
 import com.Lee.bookstore_backend.service.BookService;
 import com.Lee.bookstore_backend.utils.fileProcessor.FileProcessor;
+import com.alibaba.fastjson.JSONObject;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -136,6 +137,11 @@ public class BookServiceImpl implements BookService {
       ret.sort(Comparator.comparing(BestSellers::getTotal).reversed());
     }
     return ret;
+  }
+
+  @Override
+  public JSONObject findByLabelName(String label) {
+    return bookDao.findByLabelName(label);
   }
 
   @Override

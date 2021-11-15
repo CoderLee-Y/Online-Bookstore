@@ -10,7 +10,7 @@
 
 - 运行第一个Module，您只需要新增MongoDB的数据库并运行在27017默认端口即可；
 
-- 运行Neo4j, 您需要新增图数据库并且运行在7687端口。
+- 运行Neo4j, 您需要新增图数据库并且运行在7687端口，注意修改`application.property`中的密码。
 
   ```cypher
   CREATE (编程:label{name:'编程'})
@@ -23,8 +23,13 @@
   CREATE (魔幻小说:label{name:'魔幻小说'})
   CREATE (古籍:label{name:'古籍'})
   CREATE (人物传记:label{name:'人物传记'})
+                      
+  MATCH (a:label),(b:label)
+  WHERE a.name = '武侠小说' AND b.name = '青春文学'
+  CREATE (a)-[r:relation] -> (b)
+  RETURN r //  and any relationship you want to add
   ```
-
+  
   
 
 ### Mongo DB与评论
@@ -54,7 +59,15 @@
 
 ### Neo4j 与 标签
 
+使用Neo4j图数据库建立了标签网络，连接的标签节点认为是相似的，如果某人喜欢A标签，那么有可能喜欢和A连接的标签。这就能做到基于标签的推荐。使用图数据库的优势在于存储和查询关系方便，在关系型数据库中，如果想存储多对多的关系，需要额外的一张表格，写查询SQL的时候需要Join操作，如果需要连接多次，那么还需要多次Join操作 ，效率较低。图数据库很好的解决了这个问题。
 
+<img src="https://i.loli.net/2021/11/15/1JrZs9iAOWmF6cU.png" alt="2021-11-15 21-01-50 的屏幕截图.png" style="zoom: 80%;" />
+
+以下是查询语句和查询效果，在`BookLabelRepository`中，使用`@Query`进行查询，撰写Cypher语句。
+
+<img src="https://i.loli.net/2021/11/15/QLChG4xtIJVHKqm.png" alt="2021-11-15 21-06-54 的屏幕截图.png" style="zoom:67%;" />
+
+主要修改的地方有：增加了一个实体类，增加了对应的`Repository`，并且在Book的各层增加了`findByLabelName`为名字的层，支持提供一个标签名然后获得一个`JSONObject`, 其中包含两个字段，一个`origin`是这个标签本身的书籍列表，一个`alsoLike`是能通过一次链接得到的标签及其对应的书籍。
 
 ## Log on Oct.15
 

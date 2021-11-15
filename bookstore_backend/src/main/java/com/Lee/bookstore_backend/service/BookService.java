@@ -2,6 +2,7 @@ package com.Lee.bookstore_backend.service;
 
 import com.Lee.bookstore_backend.dto.BestSellers;
 import com.Lee.bookstore_backend.entity.Book;
+import com.alibaba.fastjson.JSONObject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
@@ -32,4 +33,6 @@ public interface BookService {
   void uploadPicture(MultipartFile multipartFile);
 
   void addComment(Long id, Integer authorId, String text);
+
+  JSONObject findByLabelName(String label);
 }

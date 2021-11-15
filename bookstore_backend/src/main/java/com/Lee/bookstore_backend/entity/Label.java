@@ -13,7 +13,7 @@ public class Label {
   @Id
   private String name;
 
-  @Relationship(type = "AlsoLike")
+  @Relationship(type = "relation")
   public Set<Label> alsoLike;
 
   public void likeLink(Label new_label){
