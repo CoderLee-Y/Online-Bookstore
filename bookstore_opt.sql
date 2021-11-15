@@ -1,4 +1,4 @@
-use bookstore;
+use bookstore_opt;
 
 -- ----------------------------
 -- Table structure for book
@@ -11,13 +11,13 @@ CREATE TABLE `book`
     `name`        varchar(255)                NOT NULL DEFAULT '',
     `type`        varchar(255)                NOT NULL DEFAULT '',
     `author`      varchar(255)                NOT NULL DEFAULT '',
-    `price`       decimal(12, 2)              NOT NULL DEFAULT '',
-    `description` varchar(65534)              NOT NULL DEFAULT '',
+    `price`       decimal(12, 2)              NOT NULL DEFAULT 0,
+    `description` varchar(10000)              NOT NULL DEFAULT '',
     `inventory`   mediumint unsigned          NOT NULL DEFAULT 0,
     `image`       varchar(255)                NOT NULL DEFAULT '',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+  DEFAULT CHARSET = UTF8MB4;
 
 -- ----------------------------
 -- Table structure for user_auth 0: user, 1: admin
@@ -31,7 +31,7 @@ CREATE TABLE `user_auth`
     `user_type` tinyint unsigned            NOT NULL DEFAULT 0,
     PRIMARY KEY (`user_id`)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+  DEFAULT CHARSET = UTF8MB4;
 
 -- ----------------------------
 -- Table structure for user
@@ -49,7 +49,7 @@ CREATE TABLE `user`
     PRIMARY KEY (`user_id`),
     FOREIGN KEY (`user_id`) REFERENCES user_auth (user_id)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+  DEFAULT CHARSET = UTF8MB4;
 
 DROP TABLE IF EXISTS `cart_table`;
 CREATE TABLE `cart_table`
@@ -62,7 +62,7 @@ CREATE TABLE `cart_table`
     FOREIGN KEY (user_id) REFERENCES user (user_id),
     FOREIGN KEY (book_id) REFERENCES book (id)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+  DEFAULT CHARSET = UTF8MB4;
 
 -- ----------------------------
 -- Records of order, status: 0-transit 1-finished
@@ -75,12 +75,12 @@ CREATE TABLE `order_table`
     `user_id`      int unsigned                NOT NULL,
     `status`       tinyint DEFAULT 0,
     `order_time`   TIMESTAMP                   NOT NULL,
-    `address`      varchar(255)                NOT NULL,
-    `phone_number` char(15)                    NOT NULL,
+    `address`      varchar(255)                NOT NULL DEFAULT '',
+    `phone_number` char(15)                    NOT NULL DEFAULT '',
     PRIMARY KEY (order_id),
     FOREIGN KEY (user_id) REFERENCES user (user_id)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+  DEFAULT CHARSET = UTF8MB4;
 
 -- ----------------------------
 -- Records of order
@@ -88,11 +88,11 @@ CREATE TABLE `order_table`
 DROP TABLE IF EXISTS `order_record`;
 CREATE TABLE `order_record`
 (
-    `record_id` int unsigned AUTO_INCREMENT NOT NULL,
-    `book_id`   int unsigned                NOT NULL,
-    `amount`    mediumint unsigned          NOT NULL DEFAULT 1,
-    `price`     decimal(12, 2)              NOT NULL,
+    `record_id` char(32)           NOT NULL,
+    `book_id`   int unsigned       NOT NULL,
+    `amount`    mediumint unsigned NOT NULL DEFAULT 1,
+    `price`     decimal(12, 2)     NOT NULL,
     PRIMARY KEY (record_id),
     FOREIGN KEY (book_id) REFERENCES book (id)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+  DEFAULT CHARSET = UTF8MB4;
