@@ -2,13 +2,13 @@ package com.Lee.bookstore_backend.controller;
 
 import com.Lee.bookstore_backend.dto.BestSellers;
 import com.Lee.bookstore_backend.entity.Book;
-import com.Lee.bookstore_backend.multithreading.AddVisitors;
 import com.Lee.bookstore_backend.service.BookService;
 import com.Lee.bookstore_backend.utils.messageUtils.MessageUtil;
 import com.Lee.bookstore_backend.utils.messageUtils.returnMessage;
 import com.Lee.bookstore_backend.utils.sessionUtils.SessionUtil;
 import com.alibaba.fastjson.JSONObject;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -16,18 +16,24 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class BookController {
   private BookService bookService;
+
+  @Autowired
+  private HttpSession hs;
 
   private static final ExecutorService exec = Executors.newFixedThreadPool(20);
 
@@ -39,10 +45,17 @@ public class BookController {
   @RequestMapping("/getHomePage")
   public returnMessage getHomePage() throws ExecutionException, InterruptedException {
     JSONObject data = new JSONObject();
-    FutureTask<Integer> futureTask = new FutureTask<Integer>(new AddVisitors());
-    exec.submit(futureTask);
-    data.put("visitors", futureTask.get());
     return MessageUtil.createMessage(0, "success", data);
+  }
+
+  @RequestMapping("/getSession")
+  @ResponseBody
+  public Map<String,String> getSession(HttpServletRequest request){
+    Map<String,String> attributeMap = new HashMap<String, String>();
+    request.getSession().setAttribute("message", request.getRequestURI());
+    attributeMap.put("sessionID", request.getSession().getId());
+    attributeMap.put("Server", String.valueOf(this.hashCode()));
+    return attributeMap;
   }
 
   @RequestMapping("/getBooksForTest")

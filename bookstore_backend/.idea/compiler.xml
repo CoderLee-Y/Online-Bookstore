@@ -11,15 +11,13 @@
         <module name="bookstore_backend" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="bookstore" target="8" />
-      <module name="bookstore_backend" target="8" />
+    <bytecodeTargetLevel target="8">
+      <module name="bookstore" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="bookstore" options="" />
-      <module name="bookstore_backend" options="" />
     </option>
   </component>
 </project>

@@ -44,7 +44,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
             .excludePathPatterns("/testDupName")
             .excludePathPatterns("/getHomePage")
             .excludePathPatterns("/getBooksForTest")
-            .excludePathPatterns("/getUserNow");
+            .excludePathPatterns("/getUserNow")
+            .excludePathPatterns("/getSession");
     }
 
 
